@@ -1,0 +1,17 @@
+.listings{
+  align-content: center
+}
+
+.carousel-inner{
+  width: auto;
+  height: 300px;
+  display: flex;
+  overflow-x: auto;
+  justify-items: center;
+}
+
+.item {
+  width: 300px;
+  flex-shrink: 0;
+  height: 100%;
+}
