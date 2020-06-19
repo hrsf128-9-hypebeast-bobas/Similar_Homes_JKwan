@@ -3,7 +3,6 @@ const db = require('./index.js');
 mongoose.Promise = global.Promise;
 
 const listingSchema = new mongoose.Schema({
-  Id: {type: Number, unique: true },
   Image_url: String,
   Price: Number,
   Address: String,
@@ -19,5 +18,6 @@ const listingSchema = new mongoose.Schema({
 })
 
 const Listings = mongoose.model('Listings', listingSchema);
+
 
 module.exports = Listings
