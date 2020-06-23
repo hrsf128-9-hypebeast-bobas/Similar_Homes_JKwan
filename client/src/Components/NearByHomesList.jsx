@@ -1,6 +1,6 @@
 import React from 'react'
 
-const NearByHomesList = (() => {
+const NearbyHomesList = (() => {
   return (
     <div id="nearByCarousel" className="carousel slide">
 
@@ -18,7 +18,7 @@ const NearByHomesList = (() => {
       </div>
       <div className="carousel-inner">
         <div className="item active">
-          <img src="https://static.trulia-cdn.com/pictures/thumbs_3/zillowstatic/IS3zbv7uhkutaw0000000000.jpg" alt="House One"></img>
+          <img className="propertyImage" src="https://static.trulia-cdn.com/pictures/thumbs_3/zillowstatic/IS3zbv7uhkutaw0000000000.jpg" alt="House One"></img>
           <div className="carousel-caption">
             <div className="propertyPrice">$4,500,000</div>
             <div className="propertyInfo">4bd 5ba 2,785 sqft</div>
@@ -27,7 +27,7 @@ const NearByHomesList = (() => {
           </div>
         </div>
         <div className="item">
-          <img src="https://static.trulia-cdn.com/pictures/thumbs_3/zillowstatic/IS3zrnkz9gui190000000000.jpg" alt="House Two"></img>
+          <img className="propertyImage" src="https://static.trulia-cdn.com/pictures/thumbs_3/zillowstatic/IS3zrnkz9gui190000000000.jpg" alt="House Two"></img>
           <div className="carousel-caption">
             <div className="propertyPrice">$4,600,000</div>
             <div className="propertyInfo">4bd 5ba 2,785 sqft</div>
@@ -36,7 +36,7 @@ const NearByHomesList = (() => {
           </div>
         </div>
         <div className="item">
-          <img src="https://static.trulia-cdn.com/pictures/thumbs_3/zillowstatic/IS7it8u6srqox11000000000.jpg" alt="House Three"></img>
+          <img className="propertyImage" src="https://static.trulia-cdn.com/pictures/thumbs_3/zillowstatic/IS7it8u6srqox11000000000.jpg" alt="House Three"></img>
           <div className="carousel-caption">
             <div className="propertyPrice">$4,800,000</div>
             <div className="propertyInfo">4bd 5ba 2,785 sqft</div>
@@ -45,7 +45,7 @@ const NearByHomesList = (() => {
           </div>
         </div>
         <div className="item">
-          <img src="https://static.trulia-cdn.com/pictures/thumbs_3/zillowstatic/IS3zrnkz9gui190000000000.jpg" alt="House Two"></img>
+          <img className="propertyImage" src="https://static.trulia-cdn.com/pictures/thumbs_3/zillowstatic/IS3zrnkz9gui190000000000.jpg" alt="House Two"></img>
           <div className="carousel-caption">
             <div className="propertyPrice">$4,600,000</div>
             <div className="propertyInfo">4bd 5ba 2,785 sqft</div>
@@ -54,7 +54,7 @@ const NearByHomesList = (() => {
           </div>
         </div>
         <div className="item">
-          <img src="https://static.trulia-cdn.com/pictures/thumbs_3/zillowstatic/IS7it8u6srqox11000000000.jpg" alt="House Three"></img>
+          <img className="propertyImage" src="https://static.trulia-cdn.com/pictures/thumbs_3/zillowstatic/IS7it8u6srqox11000000000.jpg" alt="House Three"></img>
           <div className="carousel-caption">
             <div className="propertyPrice">$4,800,000</div>
             <div className="propertyInfo">4bd 5ba 2,785 sqft</div>
@@ -69,4 +69,4 @@ const NearByHomesList = (() => {
   )
 })
 
-export default NearByHomesList
+export default NearbyHomesList

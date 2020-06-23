@@ -1,6 +1,7 @@
 import React from 'react'
 import SimilarHomesList from './SimilarHomesList.jsx'
-import NearByHomesList from './NearByHomesList.jsx'
+import NearbyHomesList from './NearbyHomesList.jsx'
+
 
 //class app
 //handle slide
@@ -11,9 +12,9 @@ class App extends React.Component {
   }
   render() {
     return (
-    <div>
-      <SimilarHomesList />
-      <NearByHomesList />
+    <div className="App">
+      <header className="App-header"></header>
+        <h1>Hello Juice Wrld</h1>
     </div>
   )}
 
