@@ -13,8 +13,8 @@ const generateListings = (size) => {
       {
         Image_url: faker.image.imageUrl(),
         Price: faker.commerce.price(1000000, 5000000),
-        Address: faker.address.streetAddress(),
-        Region: `${faker.address.city()}, ${faker.address.state()} ${faker.address.zipCode()}`,
+        Address: `${faker.address.streetAddress()} ${faker.address.streetSuffix()}`,
+        Region: `${faker.address.city()}, ${faker.address.state()}`,
         Bedroom_num: faker.random.number({'min': 1, 'max': 10}),
         Bathroom_num: faker.random.number({'min': 1, 'max': 10}),
         Square_footage: faker.random.number({'min': 1000, 'max': 5000}),

@@ -11,4 +11,11 @@ describe('App Component', () => {
   it('Should return text of header', () => {
     expect(wrapper.find('h1').text()).toBe('Hello Juice Wrld')
   })
+
+  it('Should check componentDidMount()', () => {
+    const instance = wrapper.instance();
+    jest.spyOn(instance, 'randomFunction');
+    instance.componentDidMount();
+    expect(instance.randomFunction).toHaveBeenCalledTimes(1);
+  })
 });

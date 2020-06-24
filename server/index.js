@@ -4,7 +4,7 @@ const port = 3003
 const path = require('path')
 const bodyParser = require('body-parser')
 const Listings = require('../database/Listings.js')
-
+const axios = require('axios')
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
