@@ -8,13 +8,9 @@ describe('App Component', () => {
     expect(wrapper.type()).toEqual('div');
   });
 
-  it('Should return text of header', () => {
-    expect(wrapper.find('h1').text()).toBe('Hello Juice Wrld')
-  })
-
   it('Should check componentDidMount()', () => {
     const instance = wrapper.instance();
-    jest.spyOn(instance, 'randomFunction');
+    jest.spyOn(instance, 'componentDidMount');
     instance.componentDidMount();
     expect(instance.randomFunction).toHaveBeenCalledTimes(1);
   })

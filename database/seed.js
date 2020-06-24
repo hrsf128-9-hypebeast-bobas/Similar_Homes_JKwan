@@ -9,6 +9,7 @@ const faker = require('faker')
 let results = [];
 const generateListings = (size) => {
   for (let count = 1; count <= size; count++) {
+
     const listings = new Listings(
       {
         Image_url: faker.image.imageUrl(),

@@ -4,6 +4,7 @@ import SimilarHomes from './SimilarHomes.jsx'
 class SimilarHomesList extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {}
   }
   render() {
     const listings = this.props.listings;
