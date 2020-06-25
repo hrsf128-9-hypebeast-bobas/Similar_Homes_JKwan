@@ -30,7 +30,16 @@ function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
-let newListing;
+/* Handles price change condition */
+function priceChangeElement(props) {
+  if (!props.listing.Price_change) {
+    return priceIncreaseSVG
+  } else if (props.listing.Price_change === 1) {
+    return priceDecreaseSVG
+  } else {
+    return '';
+  }
+}
 
 const SimilarHomes = (props) => (
   <div className="item">
@@ -49,7 +58,7 @@ const SimilarHomes = (props) => (
       <div className="price container">
         <div className="propertyPrice">${numberWithCommas(props.listing.Price).replace(/\.00$/,'')}</div>
         <div className="priceChange">
-          {props.listing.Price_change ? priceDecreaseSVG : priceIncreaseSVG}
+          {priceChangeElement(props)}
         </div>
       </div>
       <div className="propertyInfo">

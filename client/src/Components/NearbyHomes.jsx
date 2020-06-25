@@ -23,8 +23,20 @@ const priceIncreaseSVG = <svg className="svg increase" data-testid="property-tre
 
 const priceDecreaseSVG = <svg class="svg decrease" data-testid="property-trend-down" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M17.161 22.414l5.776-5.11 1.762 1.992-8.73 7.725-9.005-7.692 1.727-2.023 5.81 4.963V5.863h2.66v16.55z" fill="#869099"></path></svg>
 
+/* Add commas to prices */
 function numberWithCommas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+/* Handles price change condition */
+function priceChangeElement(props) {
+  if (!props.listing.Price_change) {
+    return priceIncreaseSVG
+  } else if (props.listing.Price_change === 1) {
+    return priceDecreaseSVG
+  } else {
+    return '';
+  }
 }
 
 const NearbyHomes = (props) => (
@@ -44,7 +56,7 @@ const NearbyHomes = (props) => (
       <div className="price container">
         <div className="propertyPrice">${numberWithCommas(props.listing.Price).replace(/\.00$/,'')}</div>
         <div className="priceChange">
-          {props.listing.Price_change ? priceDecreaseSVG : priceIncreaseSVG}
+          {priceChangeElement(props)}
         </div>
       </div>
       <div className="propertyInfo">
