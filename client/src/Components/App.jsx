@@ -16,7 +16,7 @@ class App extends React.Component {
   }
   /* Get listings after component mounts */
   componentDidMount() {
-    axios.get('/api/listings')
+    axios.get('/api/similarListings')
       .then(res => {
         const listings = res.data; //response data is displayed
         console.log(res.data)

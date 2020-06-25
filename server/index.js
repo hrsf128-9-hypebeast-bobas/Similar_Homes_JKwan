@@ -13,7 +13,9 @@ app.use('/', express.static(path.join(__dirname, '/../client/dist')))
 // app.post('/api/listings', (req, res) => {
 
 // })
-app.get('/api/listings', (req, res) => {
+
+/* Get listings for similar homes */
+app.get('/api/similarListings', (req, res) => {
   const getData = ((callback) => {
     Listings.find((err, listings) => {
       if(err) {
@@ -31,5 +33,25 @@ app.get('/api/listings', (req, res) => {
     }
   })
 })
+
+/* Get listings for nearby homes */
+// app.get('/api/nearbyListings', (req, res) => {
+//   const getData = ((callback) => {
+//     Listings.find((err, listings) => {
+//       if(err) {
+//         console.log('error finding data')
+//       } else {
+//         res.send(listings)
+//       }
+//     })
+//   })
+//   getData((err, data) => {
+//     if (err) {
+//       console.log('error getting listing data')
+//     } else {
+//       console.log('got the listings')
+//     }
+//   })
+// })
 
 app.listen(port, () => console.log(`Listening at http://localhost:${port}`))

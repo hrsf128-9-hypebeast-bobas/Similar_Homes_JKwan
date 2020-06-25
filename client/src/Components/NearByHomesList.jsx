@@ -9,6 +9,7 @@ class NearbyHomesList extends React.Component {
     const listings = this.props.listings;
     return (
       <div id="similarCarousel" className="carousel slide" >
+        <h2 className='listings'> New Listings near 2065 Park Blvd </h2>
         <div className="carousel-indicator">
           <div data-target="#similarCarousel" data-slide-to="0" className="active"></div>
           <div data-target="#similarCarousel" data-slide-to="1" className="active"></div>

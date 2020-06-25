@@ -21,6 +21,14 @@ class SimilarHomesList extends React.Component {
           ))
         }
         </div>
+        <div className="next control slider ">
+          <button className="sliderController"> </button>
+            <div className="SVGContainer">
+              <svg className="svg" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+                <path d="M17.65 16.513l-7.147-7.055 1.868-1.893 9.068 8.951-9.069 8.927-1.866-1.896z" fill="#869099"></path>
+              </svg>
+            </div>
+        </div>
       </div>
     )
   }

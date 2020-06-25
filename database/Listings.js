@@ -13,8 +13,7 @@ const listingSchema = new mongoose.Schema({
   Description: String,
   Mortgage: Number,
   New: Boolean,
-  Price_drop: Boolean,
-  Price_increase: Boolean
+  Price_change: Number,
 })
 
 const Listings = mongoose.model('Listings', listingSchema);
