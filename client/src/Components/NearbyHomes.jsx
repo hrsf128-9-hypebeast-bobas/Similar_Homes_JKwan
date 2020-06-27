@@ -21,7 +21,7 @@ const saveHomeSVG = <svg width="30" height="30" viewBox="0 0 32 32" xmlns="http:
 
 const priceIncreaseSVG = <svg className="svg increase" data-testid="property-trend-up" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M14.742 9.373l-5.775 5.11-1.763-1.992 8.73-7.725 9.006 7.692-1.728 2.023-5.81-4.964v17.03h-2.66V9.373z" fill="#869099"></path></svg>
 
-const priceDecreaseSVG = <svg class="svg decrease" data-testid="property-trend-down" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M17.161 22.414l5.776-5.11 1.762 1.992-8.73 7.725-9.005-7.692 1.727-2.023 5.81 4.963V5.863h2.66v16.55z" fill="#869099"></path></svg>
+const priceDecreaseSVG = <svg className="svg decrease" data-testid="property-trend-down" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M17.161 22.414l5.776-5.11 1.762 1.992-8.73 7.725-9.005-7.692 1.727-2.023 5.81 4.963V5.863h2.66v16.55z" fill="#869099"></path></svg>
 
 /* Add commas to prices */
 function numberWithCommas(x) {
