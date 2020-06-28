@@ -16,6 +16,8 @@
   flex-direction: row;
   white-space: nowrap;
   position: relative;
+  /* transition: ease-in 0.5s;
+  translate:  */
 }
 
 .container {

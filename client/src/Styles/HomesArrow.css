@@ -23,7 +23,10 @@
   justify-content: center;
   align-items: center;
   /* transition: box-shadow 0.1s ease 0s, color 0.1s ease 0s, border-color 0.2s ease 0s, background-color 0.2s ease 0s; */
-  transition-delay: 2s;
+  transition-property: color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+  transition-delay: 0s;
 }
 
 .svg {

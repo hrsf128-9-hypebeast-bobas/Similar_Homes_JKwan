@@ -8,11 +8,6 @@ const priceIncreaseSVG = <svg className={styles.increase} data-testid="property-
 
 const priceDecreaseSVG = <svg className={styles.decrease} data-testid="property-trend-down" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M17.161 22.414l5.776-5.11 1.762 1.992-8.73 7.725-9.005-7.692 1.727-2.023 5.81 4.963V5.863h2.66v16.55z" fill="#869099"></path></svg>
 
-// /* Add commas to prices */
-// function numberWithCommas(x) {
-//   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-// };
-
 /* Handles price change condition */
 function priceChangeElement(props) {
   if (!props.listing.Price_change) {
