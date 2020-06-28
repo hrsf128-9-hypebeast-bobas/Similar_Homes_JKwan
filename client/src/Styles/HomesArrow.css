@@ -1,14 +1,14 @@
 
 .nextSlider {
   position: absolute;
-  /* top: calc(50% - 24px); */
-  z-index: 2;
+  top: calc(50% - 50px);
+  /* z-index: 2; */
   right: 0px;
 }
 .previousSlider {
   position: absolute;
-  /* top: calc(50% - 24px); */
-  z-index: 2;
+  top: calc(50% - 50px);
+  /* z-index: 2; */
   left: 0px;
 }
 
@@ -22,35 +22,10 @@
   border-color: white;
   justify-content: center;
   align-items: center;
-
+  /* transition: box-shadow 0.1s ease 0s, color 0.1s ease 0s, border-color 0.2s ease 0s, background-color 0.2s ease 0s; */
+  transition-delay: 2s;
 }
 
-.nearbyNextSlider {
-  position: absolute;
-  top: calc(50% - 24px);
-  /* z-index: 2; */
-  right: 0px;
-
-}
-.nearbyPreviousSlider {
-  position: absolute;
-  top: calc(50% - 24px);
-  /* z-index: 2; */
-  left: 0px;
-
-}
-
-.nearbySliderController {
-  display: flex;
-  cursor: pointer;
-  height: 30px;
-  width: 30px;
-  border-radius: 20px;
-  padding: 1px;
-  border-color: white;
-  justify-content: center;
-  align-items: center;
-}
 .svg {
   height: 20px;
   width: 20px;

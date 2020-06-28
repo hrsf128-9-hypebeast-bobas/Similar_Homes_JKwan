@@ -25,11 +25,13 @@ function priceChangeElement(props) {
 }
 
 const SimilarHomes = (props) => (
-  <div className={styles.item}>
-    <a className='fill-div' href='https://www.trulia.com/p/ca/palo-alto/569-maybell-ave-palo-alto-ca-94306--2472139085'>
-    <SimilarHomesImage image={props.listing.Image_url} onClick={props.onClick} state={props.state} new={props.listing.New} />
-    <SimilarHomesInfo price={props.listing.Price} bedroomNum={props.listing.Bedroom_num} bathroomNum={props.listing.Bathroom_num} squareFt={props.listing.Square_footage} address={props.listing.Address} region={props.listing.Region} priceChange={priceChangeElement(props)}/>
-    </a>
+  <div className={styles.itemContainer}>
+    <div className={styles.item}>
+      <a className='fill-div' href='https://www.trulia.com/p/ca/palo-alto/569-maybell-ave-palo-alto-ca-94306--2472139085'>
+      <SimilarHomesImage image={props.listing.Image_url} onClick={props.onClick} state={props.state} new={props.listing.New} />
+      <SimilarHomesInfo price={props.listing.Price} bedroomNum={props.listing.Bedroom_num} bathroomNum={props.listing.Bathroom_num} squareFt={props.listing.Square_footage} address={props.listing.Address} region={props.listing.Region} priceChange={priceChangeElement(props)}/>
+      </a>
+    </div>
   </div>
 )
 

@@ -9,76 +9,63 @@ class SimilarHomesList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentIndex: 0,
-      width: 0
+      currentIndex: 0
     }
     this.previousSlide = this.previousSlide.bind(this)
     this.nextSlide = this.nextSlide.bind(this)
-    this.goToSlide = this.goToSlide.bind(this)
-    this.carouselRef = this.props.getWidth()
+    this.carouselRef = React.createRef()
   }
-  /* slider for carousel */
 
-  goToSlide(index) {
-    this.setState({currentIndex: index})
-  }
-  componentDidMount() {
-    console.log(this.carouselRef, 'current div')
-    this.setState({ width: this.carouselRef.current.offsetWidth});
-  }
+  /* slider for carousel */
   previousSlide () {
-    // e.preventDefault();
-    console.log('clicked previous', this.carouselRef)
-    // let index = this.state.currentIndex;
-    // let listingLength = this.props.listings.length;
-    // // const { currentIndex } = this.state;
-    // // const shouldResetIndex = currentIndex === 0;
-    // // const index =  shouldResetIndex ? lastIndex : currentIndex - 1;
-    // if (index < 1) {
-    //   index = listingLength;
-    // }
-    // index --
-    // this.setState({
-    //   currentIndex: index
-    // });
-    this.carouselRef.current.scrollLeft -= this.state.width;
+    let slideLength = 2
+    this.carouselRef.current.scrollLeft -= (this.carouselRef.current.offsetWidth * .95);
+    if (this.state.currentIndex >= (slideLength - this.state.currentIndex)) {
+      this.setState({
+        currentIndex: this.state.currentIndex -= 1
+      })
+      console.log(this.carouselRef,this.state.currentIndex, 'clicked prev')
+    }
+
   }
 
   nextSlide () {
-    // e.preventDefault();
-    console.log('clicked next')
-    // const lastIndex = this.props.listings.length - 1;
-    // const { currentImageIndex } = this.state;
-    // const shouldResetIndex = currentIndex === lastIndex;
-    // const index =  shouldResetIndex ? 0 : currentIndex + 1;
-    // let index = this.state.currentIndex;
-    // let listingLength = this.props.listings.length - 1;
-    // if(index === listingLength) {
-    //   index = -1;
-    // }
-    // index++
-    // this.setState({
-    //   currentIndex: index
-    // });
-    this.carouselRef.current.scrollLeft += this.state.width;
+    let slideLength = 2
+    this.carouselRef.current.scrollLeft += (this.carouselRef.current.offsetWidth * .95);
+    if (this.state.currentIndex < slideLength) {
+      this.setState({
+        currentIndex: this.state.currentIndex += 1
+      })
+      console.log(this.carouselRef, slideLength, this.state.currentIndex, 'clicked next')
+    }
+
   }
 
   render() {
-
+    let slideLength = 2
+    let previousButton = this.state.currentIndex ? <SimilarHomesPrevious previous={this.previousSlide} /> : ''
+    let nextButton;
+    if (this.state.currentIndex === slideLength) {
+      nextButton = ''
+    } else {
+      nextButton = <SimilarHomesNext next={this.nextSlide}/>
+    }
     const listings = this.props.listings;
     return (
       <div id="similarCarousel" className={styles.carousel} >
         <h2 className={styles.listings}> Similar Homes You May Like</h2>
-        <div className={styles.container}>
-          <SimilarHomesPrevious previous={this.previousSlide} />
-          <SimilarHomesNext next={this.nextSlide}/>
-          <div ref={this.carouselRef} className={styles.carouselInner}>
-            {listings.map((listing) => (
-              <SimilarHomes listing={listing} />
-              ))
-            }
-            <SimilarHomesMore />
+        <div className={styles.sliderContainer}>
+          <div className={styles.container}>
+            <div ref={this.carouselRef} className={styles.carouselInner}>
+              {listings.map((listing) => (
+                <SimilarHomes listing={listing} />
+                ))
+              }
+              <SimilarHomesMore />
+            </div>
           </div>
+          {previousButton}
+          {nextButton}
         </div>
 
 

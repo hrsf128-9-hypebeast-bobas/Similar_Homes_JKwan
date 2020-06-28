@@ -16,7 +16,7 @@ class App extends React.Component {
     }
     // this.previousSlide = this.previousSlide.bind(this)
     // this.nextSlide = this.nextSlide.bind(this)
-    this.getWidth = this.getWidth.bind(this)
+    // this.getWidth = this.getWidth.bind(this)
   }
   /* Get listings after component mounts */
   componentDidMount() {
@@ -28,10 +28,10 @@ class App extends React.Component {
     .catch(err => console.log(err))
   }
 
-  getWidth() {
-    const carouselRef = React.createRef();
-    return carouselRef;
-  }
+  // getWidth() {
+  //   const carouselRef = React.createRef();
+  //   return carouselRef;
+  // }
   // previousSlide () {
   //   // e.preventDefault();
   //   console.log('clicked previous')
@@ -74,8 +74,8 @@ class App extends React.Component {
 
     return (
     <div className="appContainer">
-      <SimilarHomesList getWidth={this.getWidth} listings={this.state.listings} />
-      <NearbyHomesList getWidth={this.getWidth} listings={this.state.listings}/>
+      <SimilarHomesList listings={this.state.listings} />
+      <NearbyHomesList listings={this.state.listings}/>
     </div>
   )}
 

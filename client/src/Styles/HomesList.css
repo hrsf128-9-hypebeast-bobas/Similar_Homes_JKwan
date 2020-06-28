@@ -12,7 +12,7 @@
   height: 350px;
   display: flex;
   justify-items: center;
-  overflow: auto;
+  overflow: hidden;
   flex-direction: row;
   white-space: nowrap;
   position: relative;
@@ -23,5 +23,10 @@
   align-items: center;
   display: flex;
   padding: 0 4px 0 0;
+  overflow-x: auto;
+}
+
+.sliderContainer {
+  position: relative;
 }
 
