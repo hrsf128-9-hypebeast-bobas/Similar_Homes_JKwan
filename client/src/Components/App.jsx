@@ -1,6 +1,7 @@
 import React from 'react'
 import SimilarHomesList from './SimilarHomesList.jsx'
 import NearbyHomesList from './NearbyHomesList.jsx'
+import styles from '../Styles/App.css'
 const axios = require('axios');
 
 
@@ -67,7 +68,8 @@ class App extends React.Component {
   render() {
     console.log(this.carouselRef, 'ref')
     return (
-    <div className="App">
+    <div className="appContainer
+    ">
       <SimilarHomesList ref={this.carouselRef} next={this.nextSlide} previous={this.previousSlide} listings={this.state.listings} />
       <NearbyHomesList listings={this.state.listings}/>
     </div>

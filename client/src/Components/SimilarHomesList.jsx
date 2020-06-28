@@ -2,6 +2,7 @@ import React from 'react'
 import SimilarHomes from './SimilarHomes.jsx'
 import SimilarHomesArrow from './SimilarHomesArrow.jsx'
 import SimilarHomesMore from './SimilarHomesMore.jsx'
+import styles from '../Styles/HomesList.css'
 
 class SimilarHomesList extends React.Component {
   constructor(props) {
@@ -59,11 +60,11 @@ class SimilarHomesList extends React.Component {
   render() {
     const listings = this.props.listings;
     return (
-      <div id="similarCarousel" className="carousel slide" >
-        <h2 className='listings'> Similar Homes You May Like</h2>
-        <div className="carousel-inner container">
+      <div id="similarCarousel" className={styles.carousel} >
+        <h2 className={styles.listings} Similar Homes You May Like> </h2>
+        <div className={styles.container}>
         <SimilarHomesArrow previous={this.props.previous} next={this.props.next}/>
-          <div className="carousel-inner">
+          <div className={styles.carouselInner}>
             {listings.map((listing) => (
               <SimilarHomes listing={listing} />
               ))

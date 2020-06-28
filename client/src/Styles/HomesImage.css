@@ -1,0 +1,47 @@
+.propertyMedia {
+  position: relative;
+  display: block;
+  border-radius: 10px;
+  width: 100%;
+  height: 60%;
+  display: inline-block;
+  position: relative;
+  max-width: initial;
+  overflow: hidden;
+  background-color: lightgray;
+}
+
+.propertyImage {
+  z-index: 0;
+  transition: 0.5s all ease-in-out;
+}
+
+.propertyImage:focus,
+.propertyImage:hover {
+  transform: scale(1.1);
+}
+
+/* New listing tag container */
+.propertyTagContainer {
+  width: 80%;
+  height: 20px;
+  flex-wrap: wrap;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  overflow: hidden;
+  display: flex;
+}
+
+.tagText {
+  background-color: white;
+  color: darkblue;
+  border-radius: 4px;
+  font-size: 12px;
+  padding: 2px 4px;
+  line-height: 1.33;
+  font-weight: bold;
+  display: inline-flex;
+  text-transform: uppercase;
+  cursor: default;
+}

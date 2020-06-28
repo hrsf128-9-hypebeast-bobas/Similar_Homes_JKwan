@@ -1,0 +1,19 @@
+/* Listing information */
+.item {
+  min-width: 234px;
+  height: auto;
+  box-sizing: border-box;
+  margin: 12px 3px;
+  display: block;
+  /* cursor: pointer; */
+  pointer-events: auto;
+}
+
+/* Arrow SVGS */
+.increase path{
+  fill: red;
+}
+
+.decrease path {
+  fill: green;
+}

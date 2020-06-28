@@ -1,0 +1,47 @@
+.nextSlider {
+  position: absolute;
+  top: calc(50% - 200px);
+  z-index: 2;
+  right: 0px;
+}
+.previousSlider {
+  position: absolute;
+  top: calc(50% - 200px);
+  z-index: 2;
+  left: 0px;
+}
+
+.sliderController {
+  display: flex;
+  cursor: pointer;
+  height: 30px;
+  width: 30px;
+  border-radius: 20px;
+  padding: 1px;
+  border-color: white;
+  justify-content: center;
+  align-items: center;
+}
+
+.svg {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  line-height: 0;
+  fill: #869099;
+}
+
+.SVGContainer {
+  top: calc(50% - 20px);
+}
+
+.SVGContainer path {
+  fill:rgb(59, 65, 68);
+}
+
+.sliderController:active {
+  background-color: lightslategrey;
+}
+.SVGContainer path:active {
+  fill: white;
+}
