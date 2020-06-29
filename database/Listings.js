@@ -16,7 +16,7 @@ const listingSchema = new mongoose.Schema({
   Price_change: Number,
 })
 
-const Listings = mongoose.model('Listings', listingSchema);
+const similarListings = mongoose.model('SimilarListings', listingSchema);
+const nearbyListings = mongoose.model('NearbyListings', listingSchema);
 
-
-module.exports = Listings
+module.exports = {similarListings, nearbyListings}
