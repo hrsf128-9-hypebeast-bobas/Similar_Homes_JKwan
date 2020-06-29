@@ -1,13 +1,13 @@
 
 .nextSlider {
   position: absolute;
-  top: calc(50% - 50px);
+  top: calc(50% - 24px);
   /* z-index: 2; */
   right: 0px;
 }
 .previousSlider {
   position: absolute;
-  top: calc(50% - 50px);
+  top: calc(50% - 24px);
   /* z-index: 2; */
   left: 0px;
 }
@@ -22,11 +22,12 @@
   border-color: white;
   justify-content: center;
   align-items: center;
+  /* transition: transform 0.3s;
   /* transition: box-shadow 0.1s ease 0s, color 0.1s ease 0s, border-color 0.2s ease 0s, background-color 0.2s ease 0s; */
-  transition-property: color;
+  /* transition-property: all;
   transition-duration: 0.2s;
   transition-timing-function: ease;
-  transition-delay: 0s;
+  transition-delay: 0s; */
 }
 
 .svg {

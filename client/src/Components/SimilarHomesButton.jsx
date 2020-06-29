@@ -19,7 +19,8 @@ class SimilarHomesButton extends React.Component {
   }
 
   // handle click
-  handleClick() {
+  handleClick(e) {
+    e.stopPropagation();
     console.log('clicked heart')
     this.setState(state => ({
       saved: !state.saved
@@ -28,7 +29,7 @@ class SimilarHomesButton extends React.Component {
   render() {
     return (
       <div className={styles.saveHomeButton}>
-        <div role="button" onClick={this.handleClick} className={styles.heartButton}>
+        <div role="button" onClick={this.handleClick} className={styles.heartButton} aria-hidden="true">
           <svg width="30" height="30" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
           <g fill="none">
             <path d="M26.95 11.863a5.193 5.193 0 0 1-1.53 3.69l-1.913 1.912-7.373 7.373-7.371-7.373-1.912-1.912a5.214 5.214 0 1 1 7.377-7.366l1.906 1.907 1.908-1.908a5.214 5.214 0 0 1 8.908 3.677z" fillOpacity={this.state.saved ? this.state.red.opacity : this.state.white.opacity}fill={this.state.saved ? this.state.red.color: this.state.white.color}></path>

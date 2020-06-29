@@ -9,10 +9,10 @@
   min-width: 224px;
   height: auto;
   box-sizing: border-box;
-  /* border: 16px 8px 0px; */
   display: block;
   /* cursor: pointer; */
   pointer-events: auto;
+  z-index: -1;
 }
 
 /* Arrow SVGS */

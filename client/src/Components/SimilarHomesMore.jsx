@@ -1,6 +1,8 @@
 import React from 'react'
 import styles from '../Styles/MoreHomes.css'
 
+/* Component for additional listings */
+
 const SimilarHomesMore = () => {
   return (
   <div className={styles.item}>
@@ -18,13 +20,11 @@ const SimilarHomesMore = () => {
           Palo Alto
         </div>
       </div>
-      <div className={styles.search}>
         <div className={styles.button}>
           <button className={styles.buttonText}>
             Take a look
           </button>
         </div>
-      </div>
       </div>
     </div>
     </a>

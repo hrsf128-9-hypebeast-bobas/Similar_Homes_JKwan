@@ -57,14 +57,3 @@ const insertSampleListings = function() {
 
 
 insertSampleListings();
-
-// const checkSampleListings = function() {
-//   Listings.find((err, listing) => {
-//     if (err) console.log(err)
-//     console.log(listing, 'listings in db')
-//   })
-// }
-
-// checkSampleListings();
-
-// module.exports = Seeds

@@ -6,11 +6,17 @@ import styles from '../Styles/HomesImage.css'
 const NearbyHomesImage = (props) => {
   return (
     <div className={styles.propertyMedia}>
-      <img className={styles.propertyImage} src={props.image} alt="House"></img>
-      <NearbyHomesButton />
-      <span className={styles.propertyTagContainer}>
-        {props.new ? <span className={styles.tagText}> <span> New</span></span> : ''}
-      </span>
+      <div>
+        <div>
+        <a className='fill-div' href='https://www.trulia.com/p/ca/palo-alto/569-maybell-ave-palo-alto-ca-94306--2472139085'>
+        <img className={styles.propertyImage} src={props.image} alt="House"></img>
+        </a>
+        <NearbyHomesButton />
+          <span className={styles.propertyTagContainer}>
+            {props.new ? <span className={styles.tagText}> <span> New</span></span> : ''}
+          </span>
+        </div>
+      </div>
     </div>
   )
 }

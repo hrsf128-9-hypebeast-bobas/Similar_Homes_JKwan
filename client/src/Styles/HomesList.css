@@ -9,16 +9,17 @@
 }
 
 .carouselInner{
-  height: 350px;
   display: flex;
   justify-items: center;
   overflow: hidden;
   flex-direction: row;
   white-space: nowrap;
   position: relative;
-  /* transition: ease-in 0.5s;
-  translate:  */
+  /* -webkit-transition-property:-webkit-scrolling;
+  -webkit-transition-duration:0.5s;
+  -webkit-transition-delay:0.1s; */
 }
+
 
 .container {
   flex-direction: row;

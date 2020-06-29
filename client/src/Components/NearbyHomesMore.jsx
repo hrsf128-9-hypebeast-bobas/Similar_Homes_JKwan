@@ -18,13 +18,12 @@ const NearbyHomesMore = () => {
           Palo Alto
         </div>
       </div>
-      <div className={styles.search}>
-        <div className={styles.button}>
-          <button className={styles.buttonText}>
-            Take a look
-          </button>
-        </div>
+      <div className={styles.button}>
+        <button className={styles.buttonText}>
+          Take a look
+        </button>
       </div>
+
       </div>
     </div>
     </a>

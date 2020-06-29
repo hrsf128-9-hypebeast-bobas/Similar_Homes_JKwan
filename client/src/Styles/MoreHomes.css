@@ -1,23 +1,23 @@
 /* More homes */
 .item {
-  min-width: 234px;
   height: auto;
   box-sizing: border-box;
-  margin: 12px 3px;
+  /* margin: 12px 3px; */
   display: block;
   /* cursor: pointer; */
   pointer-events: auto;
+  border: solid transparent;
+  border-width: 16px 8px 0px;
 }
 
 .additionalContainer {
-  height: 100%;
   padding: 8px;
-  border: 1px;
+  width: 224px;
+  min-width: 224px;
 }
 .additionalBox {
   height: 30px;
   width: 30px;
-
 }
 
 .additional{
@@ -51,14 +51,20 @@
   font-weight: bold;
   height: 40px;
   width: auto;
+  padding: 8px 16px;
 }
 
+.additionalContainer:hover .buttonText{
+  color: white;
+  background-color: teal;
+  transition: 0.3s all ease-in-out;
+}
 .propertyMedia {
   position: relative;
   display: block;
   border-radius: 10px;
-  width: 100%;
-  height: 60%;
+  height: 160px;
+  min-height: 160px;
   display: inline-block;
   position: relative;
   max-width: initial;

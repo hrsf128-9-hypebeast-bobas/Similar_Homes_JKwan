@@ -15,10 +15,8 @@ class App extends React.Component {
       similarListings: [],
       nearbyListings: []
     }
-    // this.previousSlide = this.previousSlide.bind(this)
-    // this.nextSlide = this.nextSlide.bind(this)
-    // this.getWidth = this.getWidth.bind(this)
   }
+
   /* Get listings after component mounts */
   componentDidMount() {
     axios.get('/api/similarListings')
@@ -27,6 +25,7 @@ class App extends React.Component {
         this.setState({ similarListings })
       })
     .catch(err => console.log(err))
+    //get nearby listings
     axios.get('/api/nearbyListings')
       .then(res => {
         const nearbyListings = res.data;
@@ -35,9 +34,8 @@ class App extends React.Component {
   }
 
   render() {
-
     return (
-    <div className="appContainer">
+    <div className={styles.appContainer}>
       <SimilarHomesList listings={this.state.similarListings} />
       <NearbyHomesList listings={this.state.nearbyListings}/>
     </div>
