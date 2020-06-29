@@ -49,6 +49,6 @@
 .sliderController:active {
   background-color: lightslategrey;
 }
-.SVGContainer path:active {
+.SVGContainer path :active {
   fill: white;
 }
