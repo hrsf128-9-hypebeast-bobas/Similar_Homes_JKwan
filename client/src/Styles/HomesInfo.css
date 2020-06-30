@@ -48,3 +48,8 @@
 .priceChange {
   width: 20px;
 }
+
+.filler {
+  color:rgb(59, 65, 68);
+  text-decoration: none;
+}
