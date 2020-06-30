@@ -1,11 +1,11 @@
-:global body {
+body {
   font-family: sans-serif, system, "Segoe UI Bold", Arial;
   color: rgb(59, 65, 68);
   max-width: 960px;
   margin: auto;
 }
 
-:global a {
-  color: inherit;
+a {
+  color:rgb(59, 65, 68);
   text-decoration: none;
 }

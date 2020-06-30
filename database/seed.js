@@ -1,4 +1,5 @@
-const db = require('./index.js');
+// const db = require('./index.js');
+const mongoose = require('mongoose')
 const Listings = require('./Listings.js')
 const faker = require('faker')
 
@@ -52,6 +53,7 @@ const insertSampleListings = function() {
     .catch((err) => console.log(err))
   Listings.nearbyListings.create(nearbyListingResults)
     .then(() => console.log('worked'))
+    .then(() => mongoose.disconnect())
     .catch((err) => console.log(err))
 };
 

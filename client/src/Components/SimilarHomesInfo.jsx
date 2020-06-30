@@ -23,7 +23,7 @@ function numberWithCommas(x) {
 
 const SimilarHomesInfo = (props) => {
   return (
-    <a className='fill-div' href='https://www.trulia.com/p/ca/palo-alto/569-maybell-ave-palo-alto-ca-94306--2472139085'>
+    <a className={styles.filler} href='https://www.trulia.com/p/ca/palo-alto/569-maybell-ave-palo-alto-ca-94306--2472139085'>
     <div className={styles.carouselCaption}>
       <div className={styles.container}>
         <div className={styles.propertyPrice}>${numberWithCommas(props.price).replace(/\.00$/,'')}</div>

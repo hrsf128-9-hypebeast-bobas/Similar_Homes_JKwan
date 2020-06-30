@@ -8,7 +8,7 @@ const NearbyHomesImage = (props) => {
     <div className={styles.propertyMedia}>
       <div>
         <div>
-        <a className='fill-div' href='https://www.trulia.com/p/ca/palo-alto/569-maybell-ave-palo-alto-ca-94306--2472139085'>
+        <a className={styles.filler} href='https://www.trulia.com/p/ca/palo-alto/569-maybell-ave-palo-alto-ca-94306--2472139085'>
         <img className={styles.propertyImage} src={props.image} alt="House"></img>
         </a>
         <NearbyHomesButton />
