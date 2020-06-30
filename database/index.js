@@ -1,16 +1,19 @@
 const mongoose = require('mongoose');
 const mongoUri = 'mongodb://localhost/trulia'
 
-const db = mongoose.connect(mongoUri, {
+mongoose.connect(mongoUri, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true
 })
+mongoose.Promise = global.Promise
+const db = mongoose.connection
 
 //test for connection
-mongoose.connection.on('error', console.error.bind(console, 'connection error:'));
-mongoose.connection.once('open', function() {
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
   // we're connected!
   console.log('connect to mongo')
 });
+
 module.exports = db;
