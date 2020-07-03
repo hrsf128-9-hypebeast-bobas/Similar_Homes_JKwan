@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3004
+const port = 3003
 const path = require('path')
 const bodyParser = require('body-parser')
 const Listings = require('../database/Listings.js')
