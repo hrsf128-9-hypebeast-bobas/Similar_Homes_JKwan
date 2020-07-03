@@ -1,19 +1,23 @@
-var path = require('path');
-var SRC_DIR = path.join(__dirname, '/client/src');
-var DIST_DIR = path.join(__dirname, '/client/dist');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SRC_DIR = path.join(__dirname, '/client/src');
+const DIST_DIR = path.join(__dirname, '/client/dist');
 
 module.exports = {
-  mode: 'development',
-  entry: `${SRC_DIR}/index.jsx`,
+  entry: {
+    app: `${SRC_DIR}/index.jsx`,
+  },
+  plugins: [
+    // new CleanWebpackPlugin(['dist/*']) for < v2 versions of CleanWebpackPlugin
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
+      title: 'Production',
+    }),
+  ],
   output: {
     filename: 'bundle.js',
-    path: DIST_DIR
-  },
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: '/client/dist',
+    path: DIST_DIR,
   },
   module : {
     rules: [
@@ -39,13 +43,5 @@ module.exports = {
         ],
       }
     ]
-  },
-  plugins: [
-    // new CleanWebpackPlugin(['dist/*']) for < v2 versions of CleanWebpackPlugin
-    new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      title: 'Development',
-    }),
-  ],
+  }
 };
-

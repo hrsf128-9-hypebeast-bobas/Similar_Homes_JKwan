@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongoUri = 'mongodb://172.17.0.2/trulia'
+const mongoUri = 'mongodb://localhost/trulia'
 
 mongoose.connect(mongoUri, {
   useCreateIndex: true,
