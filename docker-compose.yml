@@ -7,16 +7,6 @@ services:
       - 'mongo'
     ports:
       - '3003:3003'
-  mongo-seed:
-    image: database/seed
-    environment:
-      - MONGO_HOST=mongo
-      - MONGO_PORT=27017
-    volumes:
-      - ./data:/data
-    command:
-      "mongoimport --host mongo --port 27017 --db test --mode upsert --type json --file /data/people.json --jsonArray"
-
   mongo:
     image: mongo:latest
     container_name: mongo_listings
