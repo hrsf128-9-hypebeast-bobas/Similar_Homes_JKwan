@@ -1,76 +1,82 @@
-# Similar_Homes_JKwan
-Project Name
-Project description
+## Server API
 
-Table of Contents
-Usage
-Requirements
-Development
-Usage
-Webpack compile: 'npm run react-dev'
-# Falisia
+### Get restaurant info
+  * GET `/api/similarListings/:id`
 
-webpack -d --watch
-Start Server: 'npm run start'
-> Falisa is a real estate search web application that allows buyers and renters to find homes across the United States through local insights and neighborhood reviews and using Google maps API to offer details on commute and reported crimes.
-nodemon server/index.js
-Seed DB: 'npm run db:setup'
-## Related Projects
+**Path Parameters:**
+  * `id` listing id
 
-  - https://github.com/hrsf128-9-hypebeast-bobas/Tour-Scheduling-Sam
-  - https://github.com/hrsf128-9-hypebeast-bobas/Mortgage-Calculator-Kim
-  - https://github.com/hrsf128-9-hypebeast-bobas/Maps-MHamu
+**Success Status Code:** `200`
 
-## Table of Contents
+**Returns:** JSON
 
-1. [Usage](#Usage)
-1. [Requirements](#requirements)
-1. [Development](#development)
-
-## Usage
-
-> Webpack compile: 'npm run react-dev'
-```sh
-webpack -d --watch
+```json
+    { "_id": ObjectId(), 
+    "Image_url" : "String url", 
+    "Price" : "Number", 
+    "Address" : "String address", 
+    "Region" : String", 
+    "Bedroom_num" : "Number", 
+    "Bathroom_num" : "Number", 
+    "Square_footage" : " Number", 
+    "Description" : "String", 
+    "Mortgage" : "Number", 
+    "New" : "boolean", 
+    "Price_change" : "Number"}
 ```
-> Start Server: 'npm run start'
-```sh
-nodemon server/index.js
+
+### Add restaurant
+  * POST `/api/similarListings`
+
+**Success Status Code:** `201`
+
+**Request Body**: Expects JSON with the following keys.
+
+```json
+    { "_id": ObjectId(), 
+    "Image_url" : "String url", 
+    "Price" : "Number", 
+    "Address" : "String address", 
+    "Region" : String", 
+    "Bedroom_num" : "Number", 
+    "Bathroom_num" : "Number", 
+    "Square_footage" : " Number", 
+    "Description" : "String", 
+    "Mortgage" : "Number", 
+    "New" : "boolean", 
+    "Price_change" : "Number"}
 ```
-> Seed DB: 'npm run db:setup'
-```sh
-node database/seed.js
-Requirements
-An nvmrc file is included if using nvm.
+
+
+### Update similar listing info
+  * PATCH `/api/similarListings/:id`
+
+**Path Parameters:**
+  * `id` listing id
+
+**Success Status Code:** `204`
+
+**Request Body**: Expects JSON with any of the following keys (include only keys to be updated)
+
+```json
+    { "_id": ObjectId(), 
+    "Image_url" : "String url", 
+    "Price" : "Number", 
+    "Address" : "String address", 
+    "Region" : String", 
+    "Bedroom_num" : "Number", 
+    "Bathroom_num" : "Number", 
+    "Square_footage" : " Number", 
+    "Description" : "String", 
+    "Mortgage" : "Number", 
+    "New" : "boolean", 
+    "Price_change" : "Number"}
 ```
-## Requirements
 
-An `nvmrc` file is included if using [nvm](https://github.com/creationix/nvm).
+### Delete similar listing
+  * DELETE `/api/similarListings/:id`
 
-- Node 6.13.0
-- etc
+**Path Parameters:**
+  * `id` restaurant id
 
-## Development
-
-### Installing Dependencies
-
-Node 6.13.0
-etc
-Development
-Installing Dependencies
-From within the root directory:
-
-```sh
-npm install css-loader style-loader
-npm install @babel/core @babel/preset-env @babel/preset-es2015 @babel/preset-react
-npm install enzyme enzyme-adapter-react-16
-npm install eslint
-npm install jest
-npm install supertest
-npm install faker
-npm install mongoose
-npm install react react-dom
-npm install axios
-npm install -g webpack
-npm install
-```
+**Success Status Code:** `204`
