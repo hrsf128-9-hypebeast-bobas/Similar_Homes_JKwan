@@ -1,17 +1,17 @@
 import { shallow, mount, render } from 'enzyme';
 import App from '../Components/App.jsx'
-import SimilarHomes from '../Components/SimilarHomes.jsx'
+import NearbyHomes from '../Components/NearbyHomes.jsx'
 
-describe('SimilarHomes Component', () => {
+xdescribe('NearbyHomes Component', () => {
   const wrapper = mount(<App />);
-  it ('Should expect SimilarHomes to exist', ()=> {
-    expect(wrapper.find(SimilarHomes).exists()).toEqual(true)
-  })
+
+  it('Should expect NearbyHomes to exist', () => {
+    expect(wrapper.find(NearbyHomes).exists()).toEqual(true)
+  });
 
   it('Should render header', () => {
     expect(wrapper.find('h2').exists()).toEqual(true)
   })
-
   it('Should expect an image to render', () => {
     expect(wrapper.find('img')).toHaveLength(1);
   })
