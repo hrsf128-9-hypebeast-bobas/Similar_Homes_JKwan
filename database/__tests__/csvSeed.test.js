@@ -1,4 +1,4 @@
-const seed = require('../csvSeed');
+const seed = require('../csvSeeding');
 
 describe('seed script', () => {
   test('test', () => {
