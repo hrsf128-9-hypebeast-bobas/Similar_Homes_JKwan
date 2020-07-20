@@ -1,23 +1,15 @@
-const selectRandomArrayElement = (array) => {
-  return array[generateRandomBelow(array.length)];
-}
+const {
+  // generateRandomIntBelow,
+  // generateRandomIntBetween,
+  selectRandomArrayElement,
+  shuffle, generateRandomBoolean,
+  generateWeightedRandomBoolean,
+  randomIntWithOrdinal,
+} = require('./random');
 
-const generateRandomBetween = (lower, upper) => {
-  const range = upper - lower;
-  return Math.floor(Math.random() * range) + lower;
-}
-
-const generateRandomBelow = (limit) => {
-  return Math.floor(Math.random() * limit);
-}
-
-module.exports.selectRandomArrayElement = selectRandomArrayElement;
-module.exports.generateRandomBetween = generateRandomBetween;
-module.exports.generateRandomBelow = generateRandomBelow;
-
-  // would be more efficient to randomize group with repetition
-  // can refactor lady; easy to extract common functionality
-  // from selectInShuffledOrder (selectUnorderedWithRepetition)
+// would be more efficient to randomize group with repetition
+// can refactor lady; easy to extract common functionality
+// from selectInShuffledOrder (selectUnorderedWithRepetition)
 const mergeGroupsAndSelect = (seperator, stringComponentGroups) => {
   // const selectedIndexes = {};
   // const syllableCount = stringComponentGroups.length;
@@ -25,7 +17,7 @@ const mergeGroupsAndSelect = (seperator, stringComponentGroups) => {
   // const partCount = allparts.length;
   // while (syllableCount) {
   //   // const index = selectRandomArrayElement(allparts);
-  //   const index = generateRandomBelow(partCount);
+  //   const index = generateRandomIntBelow(partCount);
   //   if (!used[index]) {
   //     const part = allparts[index];
   //     used[part] = true;
@@ -33,10 +25,10 @@ const mergeGroupsAndSelect = (seperator, stringComponentGroups) => {
   //     syllableCount -= 1;
   //   }
   // }
-  let word = [];
+  const word = [];
   const used = {};
   const groupCount = stringComponentGroups.length;
-  const syllables = groupCount;
+  let syllables = groupCount;
   while (syllables) {
     const group = selectRandomArrayElement(stringComponentGroups);
     const part = selectRandomArrayElement(group);
@@ -49,24 +41,11 @@ const mergeGroupsAndSelect = (seperator, stringComponentGroups) => {
   return word.join(seperator);
 };
 
-module.exports.mergeGroupsAndSelect = mergeGroupsAndSelect;
-
-const shuffle = (arr) => {
-  let unshuffledLength = arr.length;
-  while (unshuffledLength) {
-    const switchIndex = Math.floor(Math.random() * unshuffledLength);
-    unshuffledLength -= 1;
-    [arr[unshuffledLength], arr[switchIndex]] = [arr[switchIndex], arr[unshuffledLength]];
-  }
-  return arr;
-}
-
-module.exports.shuffle = shuffle;
-
 const selectInShuffledOrder = (seperator, stringComponentGroups) => {
-  let word = [];
+  const word = [];
   // keeping in mind we are trying to reduce space complexity (memory drain) lol
   let index = 0;
+  // allows shuffle to not mutate input array
   const order = [];
   while (index < stringComponentGroups.length) {
     order.push(index);
@@ -81,20 +60,16 @@ const selectInShuffledOrder = (seperator, stringComponentGroups) => {
     word.push(part);
   }
   return word.join(seperator);
-}
-
-module.exports.selectInShuffledOrder = selectInShuffledOrder;
+};
 
 const selectInOrder = (seperator, stringComponentGroups) => {
-  let word = [];
+  const word = [];
   for (let i = 0, { length } = stringComponentGroups; i < length; i += 1) {
     const part = selectRandomArrayElement(stringComponentGroups[i]);
     word.push(part);
   }
   return word.join(seperator);
-}
-
-module.exports.selectInOrder = selectInOrder;
+};
 
 // could expand to specify syllable count
 
@@ -105,33 +80,28 @@ const generateCompoundString = (option, seperator = '', ...stringComponentGroups
   switch (option) {
     case 'any':
       word = mergeGroupsAndSelect(seperator, stringComponentGroups);
-    break;
+      break;
     case 'each':
       word = selectInShuffledOrder(seperator, stringComponentGroups);
-    break;
+      break;
     case 'ordered':
-    case 'default':
+    default:
       word = selectInOrder(seperator, stringComponentGroups);
-    break;
   }
   const capitalized = word[0].toUpperCase() + word.slice(1);
   return capitalized;
-}
-
-module.exports.generateCompoundString = generateCompoundString;
+};
 
 const generateName = () => {
-  const phonemesA = ['ro', 'ena', 'pro', 'hay', 'di', 'co', 'la', 'e', 'jo' ];
-  const phonemesB = ['fer', 'led', 'ttom', 'li', 'ric', 'nath'];
-  const phonemesC = ['we', 'iln', 'o', 'a', 'ia', 'et', 'za', 'an'];
+  const phonemesA = ['ro', 'ena', 'pro', 'hay', 'di', 'co', 'la', 'e', 'jo'];
+  const phonemesB = ['fer', 'led', 'ttom', 'li', 'ric', 'nath', 'mi'];
+  const phonemesC = ['we', 'iln', 'o', 'a', 'ia', 'et', 'za', 'an', 'ly'];
 
   return generateCompoundString('each', undefined, phonemesA, phonemesB, phonemesC);
-}
-
-module.exports.generateName = generateName;
+};
 
 // reference used : https://porch.com/resource/neighborhood-names
-module.exports.generateNeighborhoodName = () => {
+const generateNeighborhoodName = () => {
   // use generateName, either on it's own or as first part, based on rand ?
   const first = [
     'Baker', 'Bubble', 'Codery', 'Pacific', 'Best', 'Worst', 'Santa', 'Valley',
@@ -146,55 +116,72 @@ module.exports.generateNeighborhoodName = () => {
 
   const name = generateCompoundString('each', ' ', first, second);
   return name;
-}
+};
 
 // would it be faster to pregen some bitwise 'randomizers' and then
 // randomly select one from list and follow that pattern thereafter?
 
-module.exports.generateCityName = () => {
-
+const generateCityName = () => {
   const firsts = ['Mate', 'San', 'Los', 'Mount', 'Angel', 'Bear', 'Spark', generateName(), generateName()];
   const seconds = ['City', 'Ranch', 'Peak'];
   const suffixes = ['mouth', 'fort', 'port', 'borough', 'view', 'haven', 'ville', 'town', 'ship'];
   // functionally a random bool
-  const useSingleWord = Math.round(Math.random());
+  const useSingleWord = generateRandomBoolean();
   const name = generateCompoundString('ordered', useSingleWord ? '' : ' ', firsts, useSingleWord ? suffixes : seconds);
   return name;
-}
+};
 
-module.exports.generateStreetNames = (count) => {
-  const roadNames = ['1st', '2nd', 'Arrow', 'Broad', 'Laithe'];
-  const roadTypes = ['Road', 'Boulevard', 'Street', 'Place', 'Alley', 'Way'];
+const generateStreetName = () => {
+  const roadNames = ['Arrow', 'Broad', 'Laithe'];
+  const roadTypes = ['Road', 'Boulevard', 'Street', 'Place', 'Alley', 'Way', 'Row'];
+  const suffixes = ['N', 'S', 'E', 'W'];
 
-  const names = [];
+  const useSuffix = generateWeightedRandomBoolean(4);
+  const useNumberedStreet = generateWeightedRandomBoolean(0.3);
+  const names = useNumberedStreet ? [randomIntWithOrdinal(1, 100)] : roadNames;
 
-  while (count) {
-    const name = generateCompoundString('ordered', ' ', roadNames, roadTypes);
-    names.push(name);
-    count -= 1;
+  const compoundStringArgs = ['ordered', ' ', names, roadTypes];
+
+  if (useSuffix) {
+    compoundStringArgs.push(suffixes);
   }
-  return names;
-}
 
-// check for local duplicate ...?
-module.exports.generateStreetNumber = () => {
-  return generateRandomBelow(9999);
-}
+  const name = generateCompoundString(...compoundStringArgs);
 
-module.exports.generateRegionalUsers = () => {
-  // can just generate random numer; add that to current userId; associate any id in that range to this col
+  return name;
+};
+
+const generateRegionalUsers = () => {
+  // can just generate random numer
+  // add that to current userId;
+  // associate any id in that range to this col
   // of listing ie til y back to zero (hit overflow --> overflowing? overflowed?);
-}
+};
 
-module.exports.generateRandomY = () => {
+const generateRandomCoord = () => {
   // what params should this take?
-}
+};
 
 // convert x,y matrix coord to lat/long
-module.exports.convertCoords = (x, y, offsetX = 25.118, offsetY = -124.73) => {
-  return [ x / 1000 + offsetX, y / 1000 + offsetY ];
-}
+const convertCoords = (x, y, offsetX = 25.118, offsetY = -124.73) => (
+  [x / 1000 + offsetX, y / 1000 + offsetY]
+);
 
-module.exports.associateTags = () => {
+const associateTags = () => {
 
-}
+};
+
+module.exports = {
+  selectInOrder,
+  mergeGroupsAndSelect,
+  selectInShuffledOrder,
+  generateCompoundString,
+  generateName,
+  generateNeighborhoodName,
+  generateCityName,
+  generateStreetName,
+  generateRegionalUsers,
+  generateRandomCoord,
+  convertCoords,
+  associateTags,
+};
