@@ -97,27 +97,26 @@ module.exports = {
 
   // Run tests from one or more projects
   projects: [
+    // {
+    //   // preset: 'babel-jest',
+    //   displayName: 'client',
+    //   setupFiles: ["<rootDir>/enzyme.config.js"],
+    //   moduleNameMapper: {
+    //     '\\.(css|less)$': 'identity-obj-proxy',
+    //   },
+    //   testMatch: ['<rootDir>/client/src/__tests__/*.test.js*'],
+    // },
     {
-      // preset: 'babel-jest',
-      displayName: 'client',
-      setupFiles: ["<rootDir>/enzyme.config.js"],
-      moduleNameMapper: {
-        '\\.(css|less)$': 'identity-obj-proxy',
-      },
-      testMatch: ['<rootDir>/client/src/__tests__/*.test.js*'],
-    },
-    {
-
       displayName: 'db',
       testEnvironment: "node",
       testMatch: ['<rootDir>/database/__tests__/*.test.js'],
     },
-    {
-      preset: '@shelf/jest-mongodb',
-      displayName: 'server',
-      testEnvironment: "node",
-      testMatch: ['<rootDir>/server/__tests__/*'],
-    },
+    // {
+    //   preset: '@shelf/jest-mongodb',
+    //   displayName: 'server',
+    //   testEnvironment: "node",
+    //   testMatch: ['<rootDir>/server/__tests__/*'],
+    // },
   ],
 
   // Use this configuration option to add custom reporters to Jest
