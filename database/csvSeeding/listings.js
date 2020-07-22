@@ -1,17 +1,32 @@
 const { v4: uuidv4 } = require('uuid');
+const CsvWriter = require('./lib/CsvWriter');
+const setupPrototypalMethodInheritance = require('./lib/inheritance');
 
-const listingCSVData = [];
-const listingFields = ['id', 'neighborhoodId', 'street', 'houseNumber', 'price', 'mortgage'];
-listingCSVData.push(listingFields);
+const ListingWriter = function ListingWriter(filepath) {
+  const fields = ['id', 'neighborhoodId', 'street', 'houseNumber', 'price', 'mortgage'];
+  CsvWriter.call(this, filepath, fields, 'Listing seeding');
+};
 
-const generateListings = (neighborhoodId, count, streets, grid) => {
-  for (let i = 0; i < count; i += 1) {
+setupPrototypalMethodInheritance(ListingWriter, CsvWriter);
+
+ListingWriter.generateListings = function generateNewAddress(
+  neighborhoodId, start, count, streets, grid, processRow, continueCondition,
+) {
+  let index = start;
+  while (continueCondition() && index < count) {
     const [street, streetNumber] = streets.generateNewAddress();
     const [latitude, longitude] = grid.generateGeoCoordinate();
     const uuid = uuidv4();
     const row = [uuid, neighborhoodId, street, streetNumber, latitude, longitude];
-    listingCSVData.push(row);
+    processRow(row);
+    index += 1;
   }
 };
 
-module.exports = generateListings;
+ListingWriter.prototype.execute = function execute(neighborhoodId, count, streets, grid) {
+  this.processAndDrain((rowProcessor, continueCondition) => {
+    this.generateListings(neighborhoodId, count, streets, grid, rowProcessor, continueCondition);
+  });
+};
+
+module.exports = ListingWriter;

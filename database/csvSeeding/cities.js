@@ -1,11 +1,18 @@
 const { v4: uuidv4 } = require('uuid');
-const generateNeighborhoods = require('./neighborhoods');
+const NeighborhoodWriter = require('./neighborhoods');
 const { generateCityName } = require('./lib/names');
 const { distributedRandomInt } = require('./lib/random');
+const CsvWriter = require('./lib/CsvWriter');
+const setupPrototypalMethodInheritance = require('./lib/inheritance');
 
-const cityCSVData = [];
-const cityFields = ['id', 'stateId', 'name'];
-cityCSVData.push(cityFields);
+// \\\\\\\\\\\\\\\\\\\ //
+//   initializations   //
+// \\\\\\\\\\\\\\\\\\\ //
+
+const neighborhoodWriter = new NeighborhoodWriter('csv/neighborhoods.csv');
+
+const fields = ['id', 'regionId', 'name'];
+const cityWriter = new CsvWriter(fields, 'csv/cities.csv', 'City seeding');
 
 // \\\\\\\\\\\\ //
 //   settings   //
@@ -20,17 +27,36 @@ const neighborhoodSkew = 3;
 //   generator   //
 // \\\\\\\\\\\\\ //
 
-const generateCities = (stateId, count, layout) => {
-  for (let i = 0; i < count; i += 1) {
+const CityGenerator = function CityGenerator(stream, layout) {
+  this.stream = stream;
+  this.index = 0;
+  this.layout = layout;
+};
+
+setupPrototypalMethodInheritance(CityGenerator, CsvWriter);
+
+CityGenerator.prototype.generateCities = function generateCities(
+  regionId, start, count, processRow, continueCondition,
+) {
+  let index = start;
+  while (continueCondition() && index < count) {
     const name = generateCityName();
     const uuid = uuidv4();
-    const row = [uuid, stateId, name];
+    const row = [uuid, regionId, name];
     const neighborhoodCount = distributedRandomInt(
       minNeighborhoods, maxNeighborhoods, neighborhoodSkew,
     );
-    generateNeighborhoods(uuid, neighborhoodCount, layout);
-    cityCSVData.push(row);
+    neighborhoodWriter.execute(uuid, neighborhoodCount, this.layout);
+    processRow(row);
+    index += 1;
   }
 };
 
-module.exports = generateCities;
+CityGenerator.prototype.execute = function execute(regionId, count, layout) {
+  const start = 0;
+  this.stream.processRowsWithDrain((rowProcessor, continueCondition) => {
+    this.generateCities(regionId, count, layout, rowProcessor, continueCondition);
+  });
+};
+
+module.exports = CityGenerator;

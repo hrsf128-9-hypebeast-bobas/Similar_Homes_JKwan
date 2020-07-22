@@ -2,11 +2,15 @@ const { v4: uuidv4 } = require('uuid');
 const { Zipcode, CityStreets } = require('./lib/location');
 const { generateRandomIntBetween, distributedRandomInt } = require('./lib/random');
 const { generateNeighborhoodName } = require('./lib/names');
-const generateListings = require('./listings');
+const ListingWriter = require('./listings');
+const CsvWriter = require('./lib/CsvWriter');
+const setupPrototypalMethodInheritance = require('./lib/inheritance');
 
-const neighborhoodCSVData = [];
-const neighborhoodFields = ['id', 'cityId', 'zipcode', 'name'];
-neighborhoodCSVData.push(neighborhoodFields);
+// \\\\\\\\\\\\\\\\\\\ //
+//   initializations   //
+// \\\\\\\\\\\\\\\\\\\ //
+
+const listingWriter = ListingWriter('csv/listings.csv');
 
 // \\\\\\\\\\\\ //
 //   settings   //
@@ -27,21 +31,39 @@ const currentZipcode = new Zipcode();
 //   generator   //
 // \\\\\\\\\\\\\ //
 
-const generateNeighborhoods = (cityId, count, layout) => {
+const NeighborhoodWriter = function NeighborhoodWriter(filepath) {
+  const fields = ['id', 'cityId', 'zipcode', 'name'];
+  CsvWriter.call(this, filepath, fields, 'Neighborhood seeding');
+  this.index = 0;
+};
+
+setupPrototypalMethodInheritance(NeighborhoodWriter, CsvWriter);
+
+NeighborhoodWriter.prototype.generateNeighborhoods = function generateNeighborhoods(
+  cityId, count, layout, processRow, continueCondition,
+) {
   const streetCount = generateRandomIntBetween(minStreets, maxStreets);
   const streets = new CityStreets(streetCount);
-  for (let i = 0; i < count; i += 1) {
+
+  while (continueCondition() && this.index < count) {
     const name = generateNeighborhoodName();
     const uuid = uuidv4();
     const zip = currentZipcode.getZipAndIncrement();
     const row = [uuid, cityId, zip, name];
-
     const listingCount = distributedRandomInt(minListings, maxListings, listingSkew);
-
     const grid = layout.addNeighborhood(listingCount);
-    generateListings(uuid, listingCount, streets, grid);
-    neighborhoodCSVData.push(row);
+    listingWriter.execute(uuid, listingCount, streets, grid);
+    processRow(row);
+  }
+  if (this.index >= count) {
+    this.index = 0;
   }
 };
 
-module.exports = generateNeighborhoods;
+NeighborhoodWriter.prototype.execute = function execute(cityId, count, layout) {
+  this.processAndDrain((rowProcessor, continueCondition) => {
+    this.generateNeighborhoods(cityId, count, layout, rowProcessor, continueCondition);
+  });
+};
+
+module.exports = NeighborhoodWriter;
