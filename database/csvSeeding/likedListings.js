@@ -1,35 +1,31 @@
-const CsvWriter = require('./lib/CsvWriter');
-const setupPrototypalMethodInheritance = require('./lib/inheritance');
+const CsvWriter = require('./CsvWriter');
+
+const fields = ['userId', 'listingId'];
+const likedListingWriter = new CsvWriter('likedListings', fields, 'Liked Listings seeding');
 
 // \\\\\\\\\\\\\ //
 //   generator   //
 // \\\\\\\\\\\\\ //
 
-const LikedListingsWriter = function LikedListingsWriter(filepath) {
-  const fields = ['userId', 'listingId'];
-  CsvWriter.call(this, filepath, fields, 'Liked Listings seeding');
+const LikedListingGenerator = function LikedListingsGenerator(stream) {
+  this.stream = stream;
   this.index = 0;
 };
 
-setupPrototypalMethodInheritance(LikedListingsWriter, CsvWriter);
-
-LikedListingsWriter.prototype.generateUsers = function generateUsers(
-  count, processRow, continueCondition,
+LikedListingGenerator.prototype.generateLikedListing = function LikedListing(
+  userId, listingId, processRow, shouldContinue, final,
 ) {
-  while (continueCondition() && this.index < count) {
+  if (shouldContinue()) {
     const row = [userId, listingId];
-    processRow(row);
+    processRow(row, final);
     this.index += 1;
-  }
-  if (this.index >= count) {
-    this.index = 0;
   }
 };
 
-LikedListingsWriter.prototype.execute = function execute() {
-  this.processAndDrain((rowProcessor, continueCondition) => {
-    this.generateLikedListings(rowProcessor, continueCondition);
+LikedListingGenerator.prototype.add = function add(userId, listingId, final) {
+  this.stream.writeRowsWithDrain((rowProcessor, shouldContinue) => {
+    this.generateLikedListing(userId, listingId, rowProcessor, shouldContinue, final);
   });
 };
 
-module.exports = LikedListingsWriter;
+module.exports = { LikedListingGenerator, likedListingWriter };

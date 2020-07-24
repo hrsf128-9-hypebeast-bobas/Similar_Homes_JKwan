@@ -1,35 +1,31 @@
-const CsvWriter = require('./lib/CsvWriter');
-const setupPrototypalMethodInheritance = require('./lib/inheritance');
+const CsvWriter = require('./CsvWriter');
+
+const fields = ['tagId', 'listingId'];
+const listingTagWriter = new CsvWriter('listingTags', fields, 'Listing Tags seeding');
 
 // \\\\\\\\\\\\\ //
 //   generator   //
 // \\\\\\\\\\\\\ //
 
-const ListingTagsWriter = function ListingTagsWriter(filepath) {
-  const fields = ['tagId', 'listingId'];
-  CsvWriter.call(this, filepath, fields, 'Listing Tags seeding');
+const ListingTagGenerator = function ListingTagsGenerator(stream) {
+  this.stream = stream;
   this.index = 0;
 };
 
-setupPrototypalMethodInheritance(ListingTagsWriter, CsvWriter);
-
-ListingTagsWriter.prototype.generateUsers = function generateUsers(
-  count, processRow, continueCondition,
+ListingTagGenerator.prototype.generateListingTag = function generateListingTag(
+  tagId, listingId, processRow, shouldContinue, final,
 ) {
-  while (continueCondition() && this.index < count) {
+  if (shouldContinue()) {
     const row = [tagId, listingId];
-    processRow(row);
     this.index += 1;
-  }
-  if (this.index >= count) {
-    this.index = 0;
+    processRow(row, final);
   }
 };
 
-ListingTagsWriter.prototype.execute = function execute() {
-  this.processAndDrain((rowProcessor, continueCondition) => {
-    this.generateListingTags(rowProcessor, continueCondition);
+ListingTagGenerator.prototype.add = function add(tagId, listingId, final) {
+  this.stream.writeRowsWithDrain((rowProcessor, shouldContinue) => {
+    this.generateListingTag(tagId, listingId, rowProcessor, shouldContinue, final);
   });
 };
 
-module.exports = ListingTagsWriter;
+module.exports = { listingTagWriter, ListingTagGenerator };

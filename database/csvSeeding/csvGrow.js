@@ -5,10 +5,10 @@ const faker = require('faker');
 const path = require('path');
 let listingImage = 'https://similarhomelistings.s3-us-west-1.amazonaws.com/ListingImage';
 
-const writeToCsv = (filepath, categories, rowFunction, rowCount) => {
+const writeToCsv = (filename, categories, rowFunction, rowCount) => {
   console.time('Writing to csv');
 
-  const stream = fs.createWriteStream(filepath);
+  const stream = fs.createWriteStream(filename);
   const toCsvRow = (array) => `${array.join(',')}\n`;
 
   stream.on('error', (err) => {

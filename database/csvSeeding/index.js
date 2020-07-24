@@ -1,4 +1,4 @@
-const RegionWriter = require('./regions');
+const { regionWriter, RegionGenerator } = require('./regions');
 const states = require('./lib/states');
 const { CountryGrid } = require('./lib/location');
 
@@ -8,8 +8,8 @@ const { CountryGrid } = require('./lib/location');
 
 const layout = new CountryGrid();
 
-const regionWriter = new RegionWriter('csv/regions.csv', states, layout);
+const regionGenerator = new RegionGenerator(regionWriter, states, layout);
 
-regionWriter.execute();
+regionGenerator.execute();
 
 // add event listeners to clos all write streams at the same time ?

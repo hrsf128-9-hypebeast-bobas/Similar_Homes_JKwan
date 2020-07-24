@@ -1,14 +1,18 @@
 const { v4: uuidv4 } = require('uuid');
 const { shuffle, distributedRandomInt } = require('./lib/random');
-const CityWriter = require('./cities');
-const CsvWriter = require('./lib/CsvWriter');
-const setupPrototypalMethodInheritance = require('./lib/inheritance');
+const { cityWriter, CityGenerator } = require('./cities');
+const CsvWriter = require('./CsvWriter');
 
 // \\\\\\\\\\\\ //
 //   settings   //
 // \\\\\\\\\\\\ //
 
 // per state
+
+// const minCities = 2;
+// const maxCities = 4;
+// const citySkew = 1.5;
+
 const minCities = 100;
 const maxCities = 1500;
 const citySkew = 1.5;
@@ -19,15 +23,15 @@ const country = 'US';
 //   initializations   //
 // \\\\\\\\\\\\\\\\\\\ //
 
-const cityWriter = new CityWriter();
+const fields = ['id', 'name', 'abbreviation', 'country'];
+const regionWriter = new CsvWriter('regions', fields, 'Region seeding');
 
 // \\\\\\\\\\\\\ //
 //   generator   //
 // \\\\\\\\\\\\\ //
 
-const RegionWriter = function RegionWriter(filepath, states, layout) {
-  const fields = ['id', 'name', 'abbreviation', 'country'];
-  CsvWriter.call(this, filepath, fields, 'State seeding');
+const RegionGenerator = function RegionGenerator(stream, states, layout) {
+  this.stream = stream;
   this.index = 0;
   this.order = [];
   this.total = states.length;
@@ -36,42 +40,48 @@ const RegionWriter = function RegionWriter(filepath, states, layout) {
   this.initialize();
 };
 
-setupPrototypalMethodInheritance(RegionWriter, CsvWriter);
-
-RegionWriter.prototype.initialize = function initialize() {
+RegionGenerator.prototype.initialize = function initialize() {
   const order = [];
-  for (let i = 1; i <= 48; i += 1) {
+  for (let i = 0; i < 48; i += 1) {
     order.push(i);
   }
   this.order = shuffle(order);
 };
 
-RegionWriter.prototype.getNextRegion = function getNextRegion() {
+RegionGenerator.prototype.getNextRegion = function getNextRegion() {
   return this.regions[this.order[this.index]];
 };
 
-RegionWriter.prototype.generateStateData = function generateStateData(
-  processRow, continueCondition,
+RegionGenerator.prototype.generateRows = function generateRows(
+  processRow = () => {}, shouldContinue = () => true,
 ) {
-  while (continueCondition() && this.index < this.total) {
-    const [abbreviation, name] = this.getNextRegion();
-    const uuid = uuidv4();
-    const row = [uuid, name, abbreviation, country];
-    const cityCount = distributedRandomInt(minCities, maxCities, citySkew);
-    cityWriter.execute(uuid, cityCount, this.layout);
-    processRow(row);
+  while (shouldContinue() && this.index < this.total - 2) {
+    const row = this.generateRegion();
     this.index += 1;
+    processRow(row);
+  }
+  if (shouldContinue() && this.index === this.total - 2) {
+    const final = true;
+    const row = this.generateRegion(final);
+    this.index += 1;
+    processRow(row, final);
   }
 };
 
-RegionWriter.prototype.execute = function execute() {
-  this.processAndDrain((processRow, continueCondition) => {
-    this.generateStateData(processRow, continueCondition);
-    if (this.index === this.total) {
-      this.end();
-      cityWriter.end();
-    }
+RegionGenerator.prototype.generateRegion = function generateRegion(final) {
+  const [abbreviation, name] = this.getNextRegion();
+  const uuid = uuidv4();
+  const row = [uuid, name, abbreviation, country];
+  const cityCount = distributedRandomInt(minCities, maxCities, citySkew);
+  const cityGenerator = new CityGenerator(cityWriter, uuid, cityCount, this.layout);
+  cityGenerator.execute(final);
+  return row;
+};
+
+RegionGenerator.prototype.execute = function execute() {
+  this.stream.writeRowsWithDrain((processRow, shouldContinue) => {
+    this.generateRows(processRow, shouldContinue);
   });
 };
 
-module.exports = RegionWriter;
+module.exports = { regionWriter, RegionGenerator };

@@ -6,55 +6,62 @@ const path = require('path');
 //   csv writestream  //
 // \\\\\\\\\\\\\\\\\\ //
 
-const CsvWriter = function CsvWriter(filepath, fields, timerMessage) {
+const CsvWriter = function CsvWriter(filename, fields, timerMessage) {
   this.paused = false;
-  this.filepath = path.join(__dirname, filepath);
+  this.filename = filename;
   this.timerMessage = timerMessage;
-  this.maxRows = 100000;
+  this.maxRows = 10000000;
   this.rowCount = 0;
   this.filesProduced = 0;
-  // append to file instead of overwriting (usef)
-  this.stream = this.newStream();
   this.fields = fields;
+  // append to file instead of overwriting (usef)
+  this.stream = {};
+  this.setNewStream();
 };
 
-CsvWriter.prototype.currentFilepath = function currentFilepath() {
-  return this.filepath + this.filesProduced;
+CsvWriter.prototype.filepath = function filepath() {
+  const file = path.join(__dirname, 'csv', `${this.filename + this.filesProduced}.csv`);
+  return file;
 };
 
-CsvWriter.prototype.newStream = function newStream() {
+CsvWriter.prototype.setNewStream = function setNewStream() {
+  const message = `${this.timerMessage} ${this.filesProduced}`;
   if (this.timerMessage) {
-    console.time(this.timerMessage + this.filesProduced);
+    console.time(message);
   }
-  const stream = fs.createWriteStream(this.currentFilepath(), 'utf8', { flags: 'a' })
-    .on('error', () => {
-      console.log(`Csv write error with ${this.timerMessage + this.filesProduced || this.filepath}`);
+  this.stream = fs.createWriteStream(this.filepath(), 'utf8', { flags: 'a' })
+    .on('error', (err) => {
+      console.log(`Csv write error with ${message || this.filepath()}`);
+      console.error(err);
     })
     .on('finish', () => {
       if (this.timerMessage) {
-        console.timeEnd(this.timerMessage + this.filesProduced);
+        console.timeEnd(message);
       }
-    });
+    })
+    .setMaxListeners(0);
   // write header
-  stream.write(this.fields);
-  return stream;
+  this.stream.write(this.toCsvRow(this.fields));
 };
 
 CsvWriter.prototype.toCsvRow = function toCsvRow(array) {
   return `${array.join(',')}\n`;
 };
 
-CsvWriter.prototype.writeRow = function writeRow(row) {
+CsvWriter.prototype.writeRow = function writeRow(row, final) {
   if (this.rowCount > this.rowLimit) {
     this.stream.end();
     this.rowCount = 0;
     this.paused = false;
     this.filesProduced += 1;
-    this.stream = this.newStream();
+    this.setNewStream();
   }
   const isWritable = this.stream.write(this.toCsvRow(row));
   this.paused = !isWritable;
   this.rowCount += 1;
+  if (final) {
+    this.stream.end();
+  }
 };
 
 CsvWriter.prototype.end = function end() {
@@ -62,9 +69,10 @@ CsvWriter.prototype.end = function end() {
 };
 
 CsvWriter.prototype.writeRowsWithDrain = function writeRowsWithDrain(rowGenerator) {
-  const continueCondition = function continueCondition() { return !this.paused; };
-
-  rowGenerator(this.writeRow, continueCondition);
+  const shouldContinue = () => !this.paused;
+  rowGenerator((row, final) => {
+    this.writeRow(row, final);
+  }, shouldContinue);
   if (this.paused) {
     this.stream.once('drain', () => {
       this.paused = false;

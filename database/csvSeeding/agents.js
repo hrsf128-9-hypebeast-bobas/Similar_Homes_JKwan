@@ -1,24 +1,23 @@
 const { v4: uuidv4 } = require('uuid');
 const { generateName } = require('./lib/names');
-const CsvWriter = require('./lib/CsvWriter');
-const setupPrototypalMethodInheritance = require('./lib/inheritance');
+const CsvWriter = require('./CsvWriter');
+
+const fields = ['id', 'name'];
+const agentWriter = new CsvWriter('agents', fields, 'Agent seeding');
 
 // \\\\\\\\\\\\\ //
 //   generator   //
 // \\\\\\\\\\\\\ //
 
-const AgentWriter = function AgentWriter(filepath) {
-  const fields = ['id', 'name'];
-  CsvWriter.call(this, filepath, fields, 'Agent seeding');
+const AgentConstructor = function AgentConstructor(stream) {
+  this.stream = stream;
   this.index = 0;
 };
 
-setupPrototypalMethodInheritance(AgentWriter, CsvWriter);
-
-AgentWriter.prototype.generateAgents = function generateAgents(
-  count, processRow, continueCondition,
+AgentConstructor.prototype.generateAgents = function generateAgents(
+  count, processRow, shouldContinue,
 ) {
-  while (continueCondition() && this.index < count) {
+  while (shouldContinue() && this.index < count) {
     // better name generation
     const name = generateName();
     const uuid = uuidv4();
@@ -26,15 +25,12 @@ AgentWriter.prototype.generateAgents = function generateAgents(
     processRow(row);
     this.index += 1;
   }
-  if (this.index >= count) {
-    this.index = 0;
-  }
 };
 
-AgentWriter.prototype.execute = function execute() {
-  this.processAndDrain((rowProcessor, continueCondition) => {
-    this.generateAgents(rowProcessor, continueCondition);
+AgentConstructor.prototype.execute = function execute() {
+  this.stream.writeAndDrain((rowProcessor, shouldContinue) => {
+    this.generateAgents(rowProcessor, shouldContinue);
   });
 };
 
-module.exports = AgentWriter;
+module.exports = { agentWriter, AgentConstructor };
