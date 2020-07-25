@@ -12,7 +12,7 @@ const CsvWriter = require('./CsvWriter');
 const tagGenerator = new TagGenerator(tagWriter);
 
 const fields = ['id', 'neighborhoodId', 'street', 'streetNumber',
-  'latitude', 'longitude', 'price', 'squareFootage', 'bedrooms',
+  'location', 'price', 'squareFootage', 'bedrooms',
   'bathrooms', 'description', 'postingDate', 'constructionYear', 'previousPrice',
   'likeCount'];
 const listingWriter = new CsvWriter('listings', fields, 'Listing seeding');
@@ -109,6 +109,7 @@ ListingGenerator.prototype.addTags = function addTags(
 ListingGenerator.prototype.generateListing = function generateListing(final) {
   const [street, streetNumber] = this.streets.generateNewAddress();
   const [latitude, longitude] = this.grid.generateGeoCoordinate();
+  const location = `(${latitude},${longitude})`;
   const uuid = uuidv4();
   const price = generateRandomIntBetween(50000, 10000000);
   const squareFootage = generateRandomIntBetween(1000, 15000);
@@ -124,7 +125,7 @@ ListingGenerator.prototype.generateListing = function generateListing(final) {
   this.addTags(uuid, bedrooms, bathrooms, price, squareFootage, final);
   const row = [
     uuid, this.neighborhoodId, street, streetNumber,
-    latitude, longitude, price, squareFootage, bedrooms,
+    location, price, squareFootage, bedrooms,
     bathrooms, description, postingDate, constructionYear, previousPrice,
     likeCount,
   ];

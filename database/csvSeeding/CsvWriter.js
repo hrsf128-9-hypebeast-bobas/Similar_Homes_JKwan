@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 const fs = require('fs');
 const path = require('path');
+const Queue = require('./lib/Queue.src.js');
 
 // \\\\\\\\\\\\\\\\\\ //
 //   csv writestream  //
@@ -16,6 +17,7 @@ const CsvWriter = function CsvWriter(filename, fields, timerMessage) {
   this.fields = fields;
   // append to file instead of overwriting (usef)
   this.stream = {};
+  this.queue = new Queue();
   this.setNewStream();
 };
 
@@ -39,6 +41,14 @@ CsvWriter.prototype.setNewStream = function setNewStream() {
         console.timeEnd(message);
       }
     })
+    .on('drain', () => {
+      this.paused = false;
+      while (!this.paused && !this.queue.isEmpty()) {
+        const isWritable = this.stream.write(this.queue.dequeue());
+        this.paused = !isWritable;
+        this.rowCount += 1;
+      }
+    })
     .setMaxListeners(0);
   // write header
   this.stream.write(this.toCsvRow(this.fields));
@@ -56,11 +66,22 @@ CsvWriter.prototype.writeRow = function writeRow(row, final) {
     this.filesProduced += 1;
     this.setNewStream();
   }
-  const isWritable = this.stream.write(this.toCsvRow(row));
-  this.paused = !isWritable;
-  this.rowCount += 1;
+  this.queue.enqueue(this.toCsvRow(row));
+  while (!this.paused && !this.queue.isEmpty()) {
+    const isWritable = this.stream.write(this.queue.dequeue());
+    this.paused = !isWritable;
+    this.rowCount += 1;
+  }
   if (final) {
-    this.stream.end();
+    if (!this.queue.isEmpty()) {
+      this.stream.on('drain', () => {
+        if (this.queue.isEmpty()) {
+          this.stream.end();
+        }
+      });
+    } else {
+      this.stream.end();
+    }
   }
 };
 
@@ -69,16 +90,21 @@ CsvWriter.prototype.end = function end() {
 };
 
 CsvWriter.prototype.writeRowsWithDrain = function writeRowsWithDrain(rowGenerator) {
-  const shouldContinue = () => !this.paused;
-  rowGenerator((row, final) => {
-    this.writeRow(row, final);
-  }, shouldContinue);
-  if (this.paused) {
-    this.stream.once('drain', () => {
-      this.paused = false;
-      this.writeRowsWithDrain(rowGenerator);
-    });
-  }
+  // const shouldContinue = () => !this.paused;
+  const shouldContinue = () => true;
+  const queueSize = this.queue.getLength();
+  const timeout = queueSize < 2500 ? 0 : Math.floor(Math.sqrt(this.queue.getLength()));
+  setTimeout(() => {
+    rowGenerator((row, final) => {
+      this.writeRow(row, final);
+    }, shouldContinue);
+  }, timeout);
+  // if (this.paused) {
+  //   this.stream.once('drain', () => {
+  //     this.paused = false;
+  //     this.writeRowsWithDrain(rowGenerator);
+  //   });
+  // }
 };
 
 module.exports = CsvWriter;

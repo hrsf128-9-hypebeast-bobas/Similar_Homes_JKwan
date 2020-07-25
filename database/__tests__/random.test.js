@@ -1,4 +1,4 @@
-const { shuffle, distributedRandomInt } = require('../csvSeeding/random');
+const { shuffle, distributedRandomInt } = require('../csvSeeding/lib/random');
 
 describe('shuffle', () => {
   test('shuffles array', () => {

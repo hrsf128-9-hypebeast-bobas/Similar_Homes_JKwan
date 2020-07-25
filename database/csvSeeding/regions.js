@@ -71,6 +71,7 @@ RegionGenerator.prototype.generateRows = function generateRows(
 RegionGenerator.prototype.generateRegion = function generateRegion(final) {
   const [abbreviation, name] = this.getNextRegion();
   const uuid = uuidv4();
+  this.layout.addState();
   const row = [uuid, name, abbreviation, country];
   const cityCount = distributedRandomInt(minCities, maxCities, citySkew);
   const cityGenerator = new CityGenerator(cityWriter, uuid, cityCount, this.layout);

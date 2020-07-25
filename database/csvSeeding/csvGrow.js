@@ -27,6 +27,9 @@ const writeToCsv = (filename, categories, rowFunction, rowCount) => {
   const write = () => {
     let ok = true;
     while (i < rowCount && ok) {
+      if (i % 10000 === 0) {
+        console.log(`Writing row ${i}`);
+      }
       const row = toCsvRow(rowFunction(i));
       ok = stream.write(row, 'utf8');
       i += 1;
@@ -34,12 +37,12 @@ const writeToCsv = (filename, categories, rowFunction, rowCount) => {
     if (i === rowCount) {
       stream.end();
     }
-    if (i < rowCount) {
+    if (i < rowCount && !ok) {
       stream.once('drain', () => {
         write();
       });
     }
-  }
+  };
 
   write();
 };
@@ -57,6 +60,11 @@ const categories = [
   'new',
   'priceChange',
 ];
+
+// const fields = ['id', 'neighborhoodId', 'street', 'streetNumber',
+//   'location', 'price', 'squareFootage', 'bedrooms',
+//   'bathrooms', 'description', 'postingDate', 'constructionYear', 'previousPrice',
+//   'likeCount'];
 
 const rowFunction = (index) => {
   const count = index % 10;

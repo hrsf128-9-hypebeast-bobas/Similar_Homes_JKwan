@@ -1,0 +1,46 @@
+CREATE SCHEMA koalaty;
+
+CREATE TABLE koalaty.listings(
+  id int, neighborhoodId int, street text, streetNumber int, location point, price numeric, squareFootage numeric, bedrooms int, bathrooms int, description text, postingDate date, constructionYear int, previousPrice int, likeCount int
+);
+CREATE TABLE koalaty.neighborhoods(
+  id int, zipcode int, name text, city text, region text, regionAbbreviation text, country text
+);
+
+CREATE TABLE koalaty.nearbylistings(
+  listingId int, nearby[],
+);
+
+SELECT * FROM listings WHERE neighborhoodId=id 
+
+-- CREATE TABLE koalaty.regions(
+--   id uuid, name text, abbreviation text, country text;
+-- );
+
+-- CREATE TABLE koalaty.cities(
+--   id uuid, regionId uuid, name text
+-- );
+
+-- CREATE TABLE koalaty.neighborhoods(
+--   id uuid, cityId uuid, zipcode int, name text
+-- );
+
+-- CREATE TABLE koalaty.users(
+--   id uuid, annualIncome int, name text,
+-- );
+
+-- CREATE TABLE koalaty.tags(
+--   id uuid, tag text, category text,
+-- );
+
+-- CREATE TABLE koalaty.listings(
+--   id uuid, neighborhoodId uuid, street text, streetNumber int, location point, price numeric, squareFootage numeric, bedrooms int,bathrooms int, description text, postingDate date, constructionYear int, previousPrice int, likeCount int
+-- );
+
+-- CREATE TABLE koalaty.likedlistings(userId uuid, listingId uuid);
+
+
+-- CREATE TABLE koalaty.listingtags(
+--   tagId uuid, listingId uuid
+-- );
+

@@ -28,7 +28,7 @@ const neighborhoodWriter = new CsvWriter('neighborhoods', fields, 'Neighborhood 
 const minStreets = 20;
 const maxStreets = 100;
 
-// per neighborhood
+// // per neighborhood
 const minListings = 0;
 const maxListings = 600;
 const listingSkew = 2;

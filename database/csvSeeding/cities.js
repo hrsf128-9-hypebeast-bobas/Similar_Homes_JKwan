@@ -22,17 +22,17 @@ const cityWriter = new CsvWriter('cities', fields, 'City seeding');
 // const maxNeighborhoods = 2;
 // const neighborhoodSkew = 3;
 
-// const minUsers = 1;
-// const maxUsers = 3;
-// const userSkew = 1.5;
+const minUsers = 1;
+const maxUsers = 3;
+const userSkew = 1.5;
 
 const minNeighborhoods = 1;
 const maxNeighborhoods = 20;
 const neighborhoodSkew = 3;
 
-const minUsers = 0;
-const maxUsers = 2000;
-const userSkew = 1.5;
+// const minUsers = 0;
+// const maxUsers = 1000;
+// const userSkew = 1.5;
 
 // \\\\\\\\\\\\\ //
 //   generator   //
@@ -82,7 +82,9 @@ CityGenerator.prototype.generateCity = function generateCity(final) {
 
 CityGenerator.prototype.execute = function execute(final) {
   this.stream.writeRowsWithDrain(
-    (processRow, shouldContinue) => this.generateRows(processRow, shouldContinue, final),
+    (processRow, shouldContinue) => {
+      this.generateRows(processRow, shouldContinue, final);
+    },
   );
 };
 

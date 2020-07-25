@@ -1,7 +1,7 @@
 const {
   generateName, generateNeighborhoodName,
   generateCityName, generateStreetNames,
-} = require('../csvSeeding/helpers');
+} = require('../csvSeeding/lib/names');
 
 describe('select random below', () => {
   test('', () => {

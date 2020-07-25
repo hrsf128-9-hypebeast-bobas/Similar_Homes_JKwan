@@ -32,20 +32,20 @@ TagGenerator.prototype.addDynamicTags = function addDynamicTags(category, value,
     const highRangeEnd = highRangeStart + section;
     const highTag = `${highRangeStart}-${highRangeEnd}${unit}`;
 
-    this.writeDynamicListingTag(
-      category, highTag, listingId, tags[highTag], value < section && final,
-    );
+    setTimeout(() => this.writeDynamicListingTag(
+      category, highTag, listingId, tags, value < section && final,
+    ), 50);
 
     if (value >= section) {
       const lowRangeStart = highRangeStart - (section / 2);
       const lowRangeEnd = highRangeStart + (section / 2);
       const lowTag = `${lowRangeStart}-${lowRangeEnd}${unit}`;
 
-      this.writeDynamicListingTag(category, lowTag, listingId, tags[lowTag], final);
+      setTimeout(() => this.writeDynamicListingTag(category, lowTag, listingId, tags, final), 50);
     }
   } else if (type === 'count') {
     const countTag = `${value} ${unit}`;
-    this.writeDynamicListingTag(category, countTag, listingId, tags[countTag], final);
+    setTimeout(() => this.writeDynamicListingTag(category, countTag, listingId, tags, final), 50);
   }
 };
 
@@ -65,15 +65,18 @@ TagGenerator.prototype.randomlyTagListing = function randomlyTagListing(listingI
 };
 
 TagGenerator.prototype.writeDynamicListingTag = function writeDynamicListingTag(
-  category, tag, listingId, tagId, final,
+  category, tag, listingId, tags, final,
 ) {
+  let tagId = tags[tag];
   if (!tagId) {
     this.stream.writeRowsWithDrain((processRow, shouldContinue) => {
       if (shouldContinue()) {
-        // eslint-disable-next-line no-param-reassign
         tagId = uuidv4();
         const row = this.generateTag(tagId, tag, category);
-        this.dynamicTags[category][tag] = true;
+        // eslint-disable-next-line no-param-reassign
+        tags[tag] = tagId;
+        // console.log(category, this.dynamicTags[category].tags);
+        // console.log(this.dynamicTags[category].tags);
         processRow(row, final);
         listingTagGenerator.add(tagId, listingId, final);
       }

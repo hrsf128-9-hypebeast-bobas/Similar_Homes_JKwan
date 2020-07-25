@@ -4,6 +4,21 @@ const { generateStreetName } = require('./names');
 // \\\\\\\\\\\\ //
 //   settings   //
 // \\\\\\\\\\\\ //
+// const verticalLimit = 250;
+
+// // state width in thousandths of a degree
+// const columnMin = 400;
+// const columnMax = 1000;
+// const columnSkew = 1.5;
+
+// // multiplier to determine minimum area for
+// // neighborhood rect relative to listing count
+// const minAreaMultiplier = 50;
+
+// // neighborhood height in thousandths of a degree
+// const rowMin = 30;
+// const rowMax = 80;
+// const rowSkew = 1.2;
 
 const verticalLimit = 25000;
 
@@ -17,9 +32,9 @@ const columnSkew = 1.5;
 const minAreaMultiplier = 50;
 
 // neighborhood height in thousandths of a degree
-const rowMax = 150;
-const rowMin = 1000;
-const rowSkew = 1.3;
+const rowMin = 30;
+const rowMax = 800;
+const rowSkew = 1.2;
 
 // \\\\\\\\\\\\\\\\\\\\ //
 //   location helpers   //
@@ -38,6 +53,7 @@ const ListingGrid = function ListingGrid(min, max) {
   [this.maxX, this.maxY] = max;
   this.width = this.maxX - this.minX;
   this.height = this.maxY - this.minY;
+  // console.log(min, max);
   this.grid = new Uint8Array(this.width * this.height);
 };
 
@@ -143,6 +159,8 @@ const CountryGrid = function CountryGrid(min = [0, 0]) {
   // for determining overflow/ overall layout
   [this.minX, this.minY] = min;
   [this.maxX, this.maxY] = max;
+
+  [this.limitX, this.limitY] = max;
   // for state placement
   [this.stateMinX, this.stateMinY] = min;
   [this.stateMaxX, this.stateMaxY] = max;
@@ -158,16 +176,20 @@ CountryGrid.prototype.addState = function addState() {
   // if first state or last state overflowed y axis then
   // place next state in new column and generate
   // new column width
-  if (this.stateMaxY >= this.maxY) {
+  if (this.stateMaxY >= this.limitY) {
     this.stateMinX = this.maxX;
     this.stateMinY = this.minY;
     this.currentColumnWidth = distributedRandomInt(columnMin, columnMax, columnSkew);
-    this.maxX += this.CurrentColumnWidth;
+    this.maxX += this.currentColumnWidth;
     this.stateMaxX = this.maxX;
+    this.stateMaxY = this.minY;
+    // console.log('vertical overflow', this);
   } else {
     this.stateMinY = this.stateMaxY;
+    this.currentMinY = this.stateMaxY;
   }
   [this.currentMinX, this.currentMinY] = [this.stateMinX, this.stateMinY];
+  this.currentMaxX = this.stateMinX;
 };
 
 // generates rectangle for neighborhood grid
@@ -180,6 +202,8 @@ CountryGrid.prototype.addNeighborhood = function addNeighborhood(listingCount) {
     this.maxX = Math.max(this.maxX, this.currentMaxX);
     this.currentMinX = this.stateMinX;
     this.currentMinY = this.currentMaxY;
+    this.currentMaxX = this.stateMinX;
+    // console.log('horizontal overflow', this);
   } else {
     this.currentMinX = this.currentMaxX;
   }
@@ -188,7 +212,7 @@ CountryGrid.prototype.addNeighborhood = function addNeighborhood(listingCount) {
   if (this.currentMinX === this.stateMinX) {
     // generate row height.
     // should keep neighborhood dimensions reasonable, ie not excessively wide or tall
-    rowHeight = distributedRandomInt(rowMax, rowMin, rowSkew);
+    rowHeight = distributedRandomInt(rowMin, rowMax, rowSkew);
     this.currentMaxY = this.currentMinY + rowHeight;
     this.stateMaxY = this.currentMaxY;
   } else {
@@ -196,16 +220,23 @@ CountryGrid.prototype.addNeighborhood = function addNeighborhood(listingCount) {
     rowHeight = this.currentMaxY - this.currentMinY;
   }
 
-  const minArea = listingCount * minAreaMultiplier;
+  const targetArea = listingCount * minAreaMultiplier * 3;
   // width can independently be content-aware if
   // it is instead calculated based on target
   // area:listingCount ratio
-  let neighborhoodWidth = distributedRandomInt(rowMax, rowMin, rowSkew);
-  while (neighborhoodWidth * rowHeight < minArea) {
-    neighborhoodWidth = distributedRandomInt(rowMax, rowMin, rowSkew);
-  }
+  const factor = Math.random() * 2 + 0.5;
+  const neighborhoodWidth = Math.trunc((targetArea / rowHeight) * factor) + 50;
+  // while (neighborhoodWidth * rowHeight > minArea) {
+  //   console.log('stuck', i++);
+  //   console.log('min area', listingCount * minAreaMultiplier);
+  //   console.log('current area', neighborhoodWidth * rowHeight)
+  //   neighborhoodWidth = distributedRandomInt(
+  //     rowMin, Math.min(rowMax, this.currentColumnWidth), rowSkew,
+  //   );
+  // }
+  //  console.log('width', neighborhoodWidth, 'column width', this.currentColumnWidth, 'rowHeight', rowHeight);
   this.currentMaxX += neighborhoodWidth;
-
+  // console.log(this);
   const min = [this.currentMinX, this.currentMinY];
   const max = [this.currentMaxX, this.currentMaxY];
   return new ListingGrid(min, max);
