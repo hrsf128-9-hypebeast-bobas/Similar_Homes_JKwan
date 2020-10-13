@@ -1,6 +1,4 @@
 # Similar_Homes_JKwan
-Project Name
-Project description
 
 Table of Contents
 Usage
