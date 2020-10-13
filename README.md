@@ -1,11 +1,5 @@
 # Similar_Homes_JKwan
 
-Table of Contents
-Usage
-Requirements
-Development
-Usage
-Webpack compile: 'npm run react-dev'
 # Falisia
 
 webpack -d --watch
