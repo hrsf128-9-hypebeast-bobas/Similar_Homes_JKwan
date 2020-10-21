@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// const mongoUri = 'mongodb://172.17.0.3/trulia'
 const mongoUri = 'mongodb://localhost/trulia'
 
 mongoose.connect(mongoUri, {

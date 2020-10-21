@@ -23,7 +23,6 @@ class NearbyHomesList extends React.Component {
       this.setState({
         currentIndex: this.state.currentIndex -= 1
       })
-      console.log(this.carouselRef,this.state.currentIndex, 'clicked prev')
     }
 
   }
@@ -35,7 +34,6 @@ class NearbyHomesList extends React.Component {
       this.setState({
         currentIndex: this.state.currentIndex += 1
       })
-      console.log(this.carouselRef, slideLength, this.state.currentIndex, 'clicked next')
     }
 
   }

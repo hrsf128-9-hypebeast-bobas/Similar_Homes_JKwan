@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  database:
+    image: mongo:latest
+    container_name: mongo_listings
+
+  listing:
+    build: ./
+    depends_on:
+      - 'database'
+    ports:
+      - '3003:3003'
