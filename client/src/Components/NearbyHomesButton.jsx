@@ -20,7 +20,7 @@ class NearbyHomesButton extends React.Component {
 
   // handle click
   handleClick() {
-    console.log('clicked heart')
+    // console.log('clicked heart')
     this.setState(state => ({
       saved: !state.saved
     }));

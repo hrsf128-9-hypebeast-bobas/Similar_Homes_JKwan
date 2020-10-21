@@ -3,7 +3,8 @@ const mongoose = require('mongoose')
 const Listings = require('./Listings.js')
 const faker = require('faker')
 
-let listingImage = 'https://similarhomelistings.s3-us-west-1.amazonaws.com/ListingImage'
+let listingImage = 'https://d1o5gr3o9djq4j.cloudfront.net/ListingImage'
+// let listingImage = 'https://similarhomelistings.s3-us-west-1.amazonaws.com/ListingImage'
 // create listing for similar and nearby homes
 let similarListingResults = [];
 let nearbyListingResults = [];

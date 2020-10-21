@@ -21,7 +21,6 @@ class SimilarHomesButton extends React.Component {
   // handle click
   handleClick(e) {
     e.stopPropagation();
-    console.log('clicked heart')
     this.setState(state => ({
       saved: !state.saved
     }));

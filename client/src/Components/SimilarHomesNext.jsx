@@ -2,7 +2,6 @@ import React from 'react'
 import styles from '../Styles/HomesArrow.css'
 
 const SimilarHomesNext = (props) => {
-  console.log('arrows working')
   return (
     <div className={styles.nextSlider}>
       <button onClick={props.next} type="button" className={styles.sliderController}>
