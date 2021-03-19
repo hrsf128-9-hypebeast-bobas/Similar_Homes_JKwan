@@ -2,11 +2,8 @@
 
 # Falisia
 
-webpack -d --watch
-Start Server: 'npm run start'
 > Falisa is a real estate search web application that allows buyers and renters to find homes across the United States through local insights and neighborhood reviews and using Google maps API to offer details on commute and reported crimes.
 nodemon server/index.js
-Seed DB: 'npm run db:setup'
 ## Related Projects
 
   - https://github.com/hrsf128-9-hypebeast-bobas/Tour-Scheduling-Sam
